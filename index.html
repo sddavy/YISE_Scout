@@ -5,86 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YISE Scouting</title>
 
-    <!-- Include the Aerospace font (make sure the path to the font file is correct) -->
+    <!-- Inline CSS for styling -->
     <style>
-        /* Include the Aerospace font in .woff format */
+        /* Include the Aerospace font in .woff format from the root directory */
         @font-face {
             font-family: 'Aerospace';
-            src: url('fonts/Aerospace.woff') format('woff'); /* Reference the .woff font file */
+            src: url('Aerospace.woff') format('woff'); /* Reference the font file in the root directory */
             font-weight: normal;
             font-style: normal;
         }
 
+        /* Basic styles for the body */
         body {
-            font-family: Arial, sans-serif;
+            font-family: Arial, sans-serif; /* Fallback font if Aerospace is not found */
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9; /* Light greyish background for the whole page */
+            background-color: #f4f4f9; /* Light background color */
         }
 
-        /* Header Styles */
+        /* Header styles */
         header {
-            background-color: #1b1dcc;
+            background-color: #1b1dcc; /* Blue background for header */
             color: white;
-            padding: 30px 20px;
+            padding: 20px;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: flex-start; /* Align to the left */
         }
 
+        /* Apply Aerospace font to header text */
         header h1 {
-            margin: 0;
-            font-size: 48px; /* Increased size for header */
-            text-align: center;
-            flex-grow: 1; /* Make sure the header text stays centered */
             font-family: 'Aerospace', sans-serif; /* Apply the Aerospace font */
+            font-size: 48px;
+            text-align: center;
         }
 
-        header img {
-            height: 100px;
-            margin-right: 20px;
-        }
-
-        @media (min-width: 768px) {
-            header img {
-                height: 200px;
-            }
-            header h1 {
-                font-size: 60px; /* Larger font size for larger screens */
-            }
-        }
-
-        /* Tab Styles */
-        .tabs {
-            display: flex;
-            justify-content: center; /* Centers the tabs */
-            background-color: #f4f4f9; /* Match the body background color */
-            margin-top: 10px;
-        }
-
-        .tab {
-            padding: 20px 40px;
-            cursor: pointer;
-            background-color: #fff;
-            color: #1b1dcc;
-            border: 1px solid #1b1dcc;
-            margin: 0 5px;
-            font-size: 20px;
-            transition: background-color 0.3s, color 0.3s;
-            text-decoration: none;
-        }
-
-        .tab:hover {
-            background-color: #1b1dcc;
-            color: white;
-        }
-
-        .tab.active {
-            background-color: #1b1dcc;
-            color: white;
-        }
-
-        /* Container Styles */
+        /* Container styles for the main content */
         .container {
             max-width: 900px;
             margin: 20px auto;
@@ -94,25 +50,10 @@
             border-radius: 8px;
         }
 
-        /* Button styles for links (like in previous version) */
-        .button {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            text-align: center;
+        /* Add some padding and styling for paragraphs */
+        .container p {
             font-size: 18px;
-            color: white;
-            background-color: #1b1dcc;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .button:hover {
-            background-color: #0a0c80;
+            color: #333;
         }
     </style>
 </head>
@@ -120,24 +61,13 @@
 
     <!-- Header Section -->
     <header>
-        <img src="yise.png" alt="YISE Scouting Logo"> <!-- Logo on the left -->
-        <h1>YISE Scouting</h1> <!-- Text centered in the header -->
+        <img src="yise.png" alt="YISE Scouting Logo">
+        <h1>YISE Scouting</h1>
     </header>
-
-    <!-- Tab Navigation -->
-    <div class="tabs">
-        <a href="about.html" class="tab">About</a>
-        <a href="parent_scouting.html" class="tab">Parent Scouting</a>
-        <a href="competition_scouting.html" class="tab">Competition Scouting</a>
-        <a href="pit_scouting.html" class="tab">Pit Scouting</a>
-        <a href="team_list.html" class="tab">Team List</a>
-        <a href="schedule.html" class="tab">Tournament Schedule</a>
-        <a href="drive_coach.html" class="tab">Drive Coach</a> <!-- Changed to Drive Coach -->
-    </div>
 
     <!-- Main Content Section -->
     <div class="container">
-        <p>Welcome to YISE Scouting! Click the tabs above to navigate to different sections of the site.</p>
+        <p>Welcome to YISE Scouting! This is where we manage scouting data for various robotics competitions.</p>
     </div>
 
 </body>
