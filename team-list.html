@@ -135,7 +135,7 @@
 
 <!-- Navigation -->
 <nav>
-    <a href="index.html"About</a>
+    <a href="index.html">About</a>
     <a href="parent-scouting.html">Parent Scouting</a>
     <a href="competition-scouting.html">Competition Scouting</a>
     <a href="pit-scouting.html">Pit Scouting</a>
@@ -169,6 +169,8 @@
 </div>
 
 <script>
+    let editingIndex = -1;
+
     function saveToCookies(teams) {
         document.cookie = `teams=${encodeURIComponent(JSON.stringify(teams))}; path=/; max-age=31536000`;
     }
@@ -183,7 +185,7 @@
     function renderTeams() {
         const teamListEl = document.getElementById('team-list');
         teamListEl.innerHTML = '';
-        const teams = loadFromCookies().sort((a, b) => a.ranking - b.ranking);
+        const teams = loadFromCookies();
 
         teams.forEach((team, index) => {
             const row = document.createElement('tr');
@@ -206,16 +208,22 @@
         const ranking = parseInt(document.getElementById('team-ranking').value);
 
         if (!name || !number || !ranking) {
-            alert('Please fill out all fields before clicking the button');
+            alert('Please fill out all fields');
             return;
         }
 
         const teams = loadFromCookies();
-        teams.push({ name, number, ranking });
+        if (editingIndex > -1) { // Handle editing
+            teams[editingIndex] = { name, number, ranking };
+            editingIndex = -1; 
+        } else {
+            teams.push({ name, number, ranking });
+        }
+
         saveToCookies(teams);
         renderTeams();
 
-        // Clear the fields after adding
+        // Clear fields
         document.getElementById('team-name').value = '';
         document.getElementById('team-number').value = '';
         document.getElementById('team-ranking').value = '';
@@ -229,7 +237,12 @@
     }
 
     function editTeam(index) {
-        alert(`Edit functionality for team index ${index} would go here.`);
+        const teams = loadFromCookies();
+        const team = teams[index];
+        document.getElementById('team-name').value = team.name;
+        document.getElementById('team-number').value = team.number;
+        document.getElementById('team-ranking').value = team.ranking;
+        editingIndex = index;
     }
 
     window.onload = renderTeams;
