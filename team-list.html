@@ -4,17 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YISE Scouting</title>
+
+    <!-- Add the favicon link -->
     <link rel="icon" href="yise.png" type="image/png">
 
-    <!-- Custom font-face rule for the Aerospace font -->
     <style>
-        /* General Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         /* Custom font-face rule for the Aerospace font */
         @font-face {
             font-family: 'Aerospace';
@@ -24,16 +18,18 @@
             font-style: normal;
         }
 
-        /* Styling for the entire body */
+        /* Reset & basic body styling */
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
             background-color: #f4f4f9;
             display: flex;
             flex-direction: column;
             height: 100vh;
         }
 
-        /* Header Section */
+        /* Header */
         header {
             background-color: #1b1dcc;
             color: white;
@@ -43,18 +39,26 @@
             align-items: center;
         }
 
-        header img {
-            height: 160px;
-            margin-right: 20px;
+        header .header-content {
+            display: flex;
+            align-items: center;
+            width: 100%;
         }
 
         header h1 {
             font-family: 'Aerospace', sans-serif;
             font-size: 48px;
             text-align: center;
+            flex-grow: 1;
+            margin: 0;
         }
 
-        /* Navigation Section */
+        header img {
+            height: 160px;
+            margin-right: 20px;
+        }
+
+        /* Navigation Bar */
         nav {
             background-color: #e0e0e0;
             padding: 10px;
@@ -74,7 +78,27 @@
             color: white;
         }
 
-        /* Main container */
+        /* Input Section */
+        .inputs-container {
+            margin: 20px 0;
+        }
+
+        .inputs-container input {
+            padding: 8px;
+            margin: 5px;
+            font-size: 16px;
+        }
+
+        .inputs-container button {
+            padding: 8px 12px;
+            background-color: #1b1dcc;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Main Content Section */
         .container {
             max-width: 1200px;
             margin: 20px auto;
@@ -85,12 +109,11 @@
             flex-grow: 1;
         }
 
-        /* Table styles */
+        /* Table Styles */
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 10px 0;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         table th,
@@ -100,25 +123,18 @@
             text-align: center;
         }
 
-        table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        .action-btn {
-            padding: 6px 12px;
-            background-color: #1b1dcc;
-            color: white;
-            border: none;
-            border-radius: 4px;
+        .arrow-btn {
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            font-size: 16px;
+            color: #333;
+            margin-right: 8px;
         }
 
-        .action-btn:hover {
-            background-color: #005bb5;
+        table tr:hover {
+            background-color: #e0e0e0;
         }
 
-        /* Footer styles */
+        /* Footer Styles */
         footer {
             background-color: #1b1dcc;
             color: white;
@@ -126,13 +142,6 @@
             padding: 10px 0;
             width: 100%;
             font-size: 14px;
-        }
-
-        /* Arrow buttons for sorting */
-        .arrow-btn {
-            cursor: pointer;
-            font-size: 16px;
-            margin: 0 5px;
         }
     </style>
 </head>
@@ -145,7 +154,7 @@
         </div>
     </header>
 
-    <!-- Navigation Section -->
+    <!-- Navigation Tabs -->
     <nav>
         <a href="index.html">About</a>
         <a href="parent-scouting.html">Parent Scouting</a>
@@ -159,17 +168,24 @@
     <!-- Main Content Section -->
     <div class="container">
         <h2>Team List</h2>
+        <div class="inputs-container">
+            <input id="team-name" placeholder="Team Name">
+            <input id="team-number" placeholder="Team Number">
+            <input id="team-ranking" placeholder="Team Ranking">
+            <button onclick="addTeam()">Add Team</button>
+        </div>
+
+        <!-- Team List Table -->
         <table>
             <thead>
                 <tr>
+                    <th>Actions</th>
                     <th>Ranking</th>
                     <th>Team Name</th>
                     <th>Team Number</th>
-                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody id="team-list">
-                <!-- Empty to allow dynamic entry -->
             </tbody>
         </table>
     </div>
@@ -182,52 +198,44 @@
     <script>
         const teamListContainer = document.getElementById('team-list');
 
-        const addTeam = (name = "Team", number = "00000") => {
+        const addTeam = () => {
+            const name = document.getElementById('team-name').value;
+            const number = document.getElementById('team-number').value;
+            const ranking = document.getElementById('team-ranking').value;
+
+            if (!name || !number || !ranking) return alert("Please fill in all fields");
+
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td>1</td>
-                <td>${name}</td>
-                <td>${number}</td>
                 <td>
                     <span class="arrow-btn" onclick="moveTeamUp(this)">↑</span>
                     <span class="arrow-btn" onclick="moveTeamDown(this)">↓</span>
-                    <button class="action-btn" onclick="editTeam(this)">Edit</button>
+                    <button onclick="editTeam(this)">Edit</button>
                 </td>
+                <td>${ranking}</td>
+                <td>${name}</td>
+                <td>${number}</td>
             `;
             teamListContainer.appendChild(tr);
-            updateRanks();
         };
 
         const editTeam = (btn) => {
             const tr = btn.closest('tr');
-            const newName = prompt("Enter new team name:", tr.children[1].innerText);
-            if (newName) tr.children[1].innerText = newName;
+            const newName = prompt("Enter new team name:", tr.children[2].innerText);
+            if (newName) tr.children[2].innerText = newName;
         };
 
         const moveTeamUp = (btn) => {
             const tr = btn.closest('tr');
             const prev = tr.previousElementSibling;
             if (prev) tr.parentElement.insertBefore(tr, prev);
-            updateRanks();
         };
 
         const moveTeamDown = (btn) => {
             const tr = btn.closest('tr');
             const next = tr.nextElementSibling;
             if (next) tr.parentElement.insertBefore(next, tr);
-            updateRanks();
         };
-
-        const updateRanks = () => {
-            const rows = document.querySelectorAll('#team-list tr');
-            rows.forEach((row, index) => {
-                row.children[0].innerText = index + 1; // Update rankings dynamically
-            });
-        };
-
-        // Preload with example teams
-        addTeam('Team Alpha', '11308');
-        addTeam('Team Beta', '11309');
     </script>
 </body>
 </html>
