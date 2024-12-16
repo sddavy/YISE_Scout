@@ -24,8 +24,15 @@
             margin: 0;
             font-size: 24px;
         }
+        /* Default logo size (for mobile and small screens) */
         header img {
-            height: 100px; /* Increased logo size */
+            height: 100px; /* Default size */
+        }
+        /* Layout for larger screens (laptops and desktops) */
+        @media (min-width: 768px) {
+            header img {
+                height: 200px; /* Increased size for larger screens */
+            }
         }
         /* Container Styles */
         .container {
