@@ -1,115 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Team List - Local Save</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team List - YISE Scouting</title>
+
+    <!-- Add the favicon link -->
+    <link rel="icon" href="yise.png" type="image/png">
+
+    <!-- Custom font-face rule for the Aerospace font -->
+    <style>
+        @font-face {
+            font-family: 'Aerospace';
+            src: url('aerospace.woff') format('woff'),
+                 url('aerospace.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* General Reset & Body */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Header Section */
+        header {
+            background-color: #1b1dcc;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        header h1 {
+            font-family: 'Aerospace', sans-serif;
+            font-size: 48px;
+            margin: 0;
+        }
+
+        header img {
+            height: 160px;
+            margin-right: 20px;
+        }
+
+        /* Navigation Tabs */
+        nav {
+            background-color: #e0e0e0;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #b0b0b0;
+            color: white;
+        }
+
+        nav a.active {
+            background-color: #1b1dcc;
+            color: white;
+            border-radius: 0;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            flex-grow: 1;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        button {
+            padding: 8px 12px;
+            background-color: #1b1dcc;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #154bb5;
+        }
+
+        /* Footer Section */
+        footer {
+            background-color: #1b1dcc;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            width: 100%;
+        }
+
+        footer small {
+            font-size: 12px;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>Local Team List with Cookies</h1>
-  </header>
 
-  <div>
-    <h3>Add a Team</h3>
-    <input id="team-name" placeholder="Team Name" />
-    <input id="team-number" placeholder="Team Number" />
-    <input id="team-ranking" placeholder="Team Ranking" />
-    <button onclick="addTeam()">Add Team</button>
-  </div>
+    <!-- Header Section -->
+    <header>
+        <img src="yise.png" alt="YISE Scouting Logo">
+        <h1>YISE Scouting - Team List</h1>
+    </header>
 
-  <div>
-    <h3>Team List</h3>
-    <table border="1">
-      <thead>
-        <tr>
-          <th>Team Name</th>
-          <th>Team Number</th>
-          <th>Ranking</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody id="team-list">
-        <!-- Dynamic rows here -->
-      </tbody>
-    </table>
-  </div>
+    <!-- Navigation Tabs -->
+    <nav>
+        <a href="index.html">About</a>
+        <a href="parent-scouting.html">Parent Scouting</a>
+        <a href="competition-scouting.html">Competition Scouting</a>
+        <a href="pit-scouting.html">Pit Scouting</a>
+        <a href="team-list.html" class="active">Team List</a>
+        <a href="tournament-schedule.html">Tournament Schedule</a>
+        <a href="drive-coach.html">Drive Coach</a>
+    </nav>
 
-  <script>
-    // Helper to save teams to cookies
-    function saveToCookies(teams) {
-      const cookieString = JSON.stringify(teams);
-      document.cookie = `teams=${encodeURIComponent(cookieString)}; path=/; max-age=31536000`;
-    }
+    <!-- Main Content Section -->
+    <div class="container">
+        <h2>Manage Your Teams</h2>
+        <div>
+            <input id="team-name" placeholder="Team Name">
+            <input id="team-number" placeholder="Team Number">
+            <input id="team-ranking" placeholder="Team Ranking">
+            <button onclick="addTeam()">Add Team</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Team Name</th>
+                    <th>Team Number</th>
+                    <th>Ranking</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="team-list"></tbody>
+        </table>
+    </div>
 
-    // Helper to load teams from cookies
-    function loadFromCookies() {
-      const cookies = document.cookie.split('; ');
-      const teamCookie = cookies.find(cookie => cookie.startsWith('teams='));
-      if (teamCookie) {
-        return JSON.parse(decodeURIComponent(teamCookie.split('=')[1]));
-      }
-      return [];
-    }
+    <!-- Footer Section -->
+    <footer>
+        <small>Brought to you by FTC YISE #11308 | All Rights Reserved | © 2024</small>
+    </footer>
 
-    // Function to render team rows
-    function renderTeams() {
-      const teamListEl = document.getElementById('team-list');
-      teamListEl.innerHTML = '';
-      const teams = loadFromCookies();
-      teams.forEach((team, index) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${team.name}</td>
-          <td>#${team.number}</td>
-          <td>${team.ranking}</td>
-          <td>
-            <button onclick="removeTeam(${index})">Remove</button>
-          </td>
-        `;
-        teamListEl.appendChild(row);
-      });
-    }
+    <!-- Script for local cookies logic -->
+    <script>
+        function saveToCookies(teams) {
+            document.cookie = `teams=${encodeURIComponent(JSON.stringify(teams))}; path=/; max-age=31536000`;
+        }
 
-    // Function to add a new team
-    function addTeam() {
-      const teamName = document.getElementById('team-name').value.trim();
-      const teamNumber = document.getElementById('team-number').value.trim();
-      const teamRanking = document.getElementById('team-ranking').value.trim();
+        function loadFromCookies() {
+            const cookies = document.cookie.split('; ');
+            const teamCookie = cookies.find(cookie => cookie.startsWith('teams='));
+            if (teamCookie) return JSON.parse(decodeURIComponent(teamCookie.split('=')[1]));
+            return [];
+        }
 
-      if (!teamName || !teamNumber || !teamRanking) {
-        alert('Please fill in all fields.');
-        return;
-      }
+        function renderTeams() {
+            const teamListEl = document.getElementById('team-list');
+            teamListEl.innerHTML = '';
+            const teams = loadFromCookies();
+            teams.forEach((team, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${team.name}</td>
+                    <td>#${team.number}</td>
+                    <td>${team.ranking}</td>
+                    <td><button onclick="removeTeam(${index})">Remove</button></td>
+                `;
+                teamListEl.appendChild(row);
+            });
+        }
 
-      const newTeam = {
-        name: teamName,
-        number: parseInt(teamNumber, 10),
-        ranking: parseInt(teamRanking, 10),
-      };
+        function addTeam() {
+            const name = document.getElementById('team-name').value;
+            const number = parseInt(document.getElementById('team-number').value);
+            const ranking = parseInt(document.getElementById('team-ranking').value);
 
-      const teams = loadFromCookies();
-      teams.push(newTeam);
+            if (!name || !number || !ranking) {
+                alert('Please fill out all fields');
+                return;
+            }
 
-      saveToCookies(teams);
-      renderTeams();
+            const teams = loadFromCookies();
+            teams.push({ name, number, ranking });
+            saveToCookies(teams);
+            renderTeams();
+        }
 
-      // Clear input fields after save
-      document.getElementById('team-name').value = '';
-      document.getElementById('team-number').value = '';
-      document.getElementById('team-ranking').value = '';
-    }
+        function removeTeam(index) {
+            const teams = loadFromCookies();
+            teams.splice(index, 1);
+            saveToCookies(teams);
+            renderTeams();
+        }
 
-    // Function to remove a team
-    function removeTeam(index) {
-      const teams = loadFromCookies();
-      teams.splice(index, 1); // Remove the clicked team
-      saveToCookies(teams);
-      renderTeams();
-    }
+        window.onload = renderTeams;
+    </script>
 
-    // Render on page load
-    window.onload = renderTeams;
-  </script>
 </body>
 </html>
