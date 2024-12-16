@@ -256,33 +256,38 @@
             loadTeams();
         }
 
-        // Function to load teams from Firestore
-        async function loadTeams() {
-            const snapshot = await teamsRef.orderBy("ranking", "desc").get();
-            const teamList = document.getElementById("team-list").getElementsByTagName("tbody")[0];
-            teamList.innerHTML = ""; // Clear current list
-
-            snapshot.forEach(doc => {
-                const team = doc.data();
-                const row = teamList.insertRow();
-
-                const teamNameCell = row.insertCell(0);
-                teamNameCell.textContent = team.name;
-
-                const teamNumberCell = row.insertCell(1);
-                teamNumberCell.textContent = "#" + team.number;
-
-                const teamRankingCell = row.insertCell(2);
-                teamRankingCell.textContent = team.ranking;
-
-                const actionsCell = row.insertCell(3);
-                actionsCell.classList.add("actions");
-                actionsCell.innerHTML = `
-                    <button onclick="editTeam('${doc.id}')">Edit</button>
-                    <button onclick="removeTeam('${doc.id}')">Remove</button>
-                `;
-            });
+            // Function to load teams from Firestore
+           async function loadTeams() {
+        const snapshot = await teamsRef.orderBy("ranking", "desc").get();
+        const teamList = document.getElementById("team-list").getElementsByTagName("tbody")[0];
+        teamList.innerHTML = "";  // Clear current list
+        
+        if (snapshot.empty) {
+            console.log("No teams found.");
+            return;
         }
+        
+        snapshot.forEach(doc => {
+            const team = doc.data();
+            const row = teamList.insertRow();
+            const teamNameCell = row.insertCell(0);
+            teamNameCell.textContent = team.name;
+        
+            const teamNumberCell = row.insertCell(1);
+            teamNumberCell.textContent = "#" + team.number;
+        
+            const teamRankingCell = row.insertCell(2);
+            teamRankingCell.textContent = team.ranking;
+        
+            const actionsCell = row.insertCell(3);
+            actionsCell.classList.add("actions");
+            actionsCell.innerHTML = `
+                <button onclick="editTeam('${doc.id}')">Edit</button>
+                <button onclick="removeTeam('${doc.id}')">Remove</button>
+            `;
+        });
+        }
+
 
         // Function to edit a team
         async function editTeam(id) {
