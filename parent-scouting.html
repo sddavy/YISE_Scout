@@ -63,7 +63,6 @@
             padding: 10px 20px;
             margin: 0 10px;
             font-size: 18px;
-            border-radius: 5px;
             transition: background-color 0.3s ease;
         }
 
@@ -73,15 +72,16 @@
             color: white;
         }
 
-        /* Active tab color */
+        /* Active tab style - No rounded corners, blue background */
         nav a.active {
             background-color: #1b1dcc; /* Blue background for active tab */
             color: white;
+            border-radius: 0; /* Remove rounded corners */
         }
 
         /* Main content section */
         .container {
-            max-width: 900px;  /* Set width to 900px */
+            max-width: 1200px;  /* Set width to 1200px */
             margin: 20px auto;
             padding: 20px;
             background-color: white;
@@ -94,6 +94,8 @@
         .container h2 {
             font-size: 32px;
             color: #333;
+            text-align: left;
+            margin-bottom: 20px; /* Optional spacing between header and content */
         }
 
         .container p {
@@ -142,6 +144,7 @@
         <h2>Parent Scouting</h2>
         <p>
             This is an example text for the Parent Scouting page. 
+            The page includes information about scouting, how to contribute as a parent, and other related topics.
         </p>
     </div>
 
