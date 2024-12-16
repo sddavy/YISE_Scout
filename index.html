@@ -29,8 +29,15 @@
             color: white;
             padding: 20px;
             display: flex;
-            justify-content: space-between;
+            justify-content: center; /* Center the content of the header */
             align-items: center;
+        }
+
+        /* Container for the logo and text */
+        .header-content {
+            display: flex;
+            align-items: center;
+            width: 100%;
         }
 
         /* Apply Aerospace font to header text */
@@ -38,7 +45,14 @@
             font-family: 'Aerospace', sans-serif; /* Apply the Aerospace font */
             font-size: 48px;
             text-align: center;
+            flex-grow: 1; /* Make the h1 take up available space, centering it */
             margin: 0;
+        }
+
+        /* Logo styling */
+        header img {
+            height: 80px; /* Adjust logo size */
+            margin-right: 20px;
         }
 
         /* Container styles for the main content */
@@ -89,8 +103,10 @@
 
     <!-- Header Section -->
     <header>
-        <img src="yise.png" alt="YISE Scouting Logo">
-        <h1>YISE Scouting</h1>
+        <div class="header-content">
+            <img src="yise.png" alt="YISE Scouting Logo"> <!-- Logo on the left -->
+            <h1>YISE Scouting</h1> <!-- Centered text -->
+        </div>
     </header>
 
     <!-- Navigation Tabs -->
