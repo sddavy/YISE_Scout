@@ -4,12 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YISE Scouting</title>
-
-    <!-- Add the favicon link -->
     <link rel="icon" href="yise.png" type="image/png">
 
     <!-- Custom font-face rule for the Aerospace font -->
     <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         /* Custom font-face rule for the Aerospace font */
         @font-face {
             font-family: 'Aerospace';
@@ -19,18 +24,16 @@
             font-style: normal;
         }
 
-        /* Basic styles for the body */
+        /* Styling for the entire body */
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
             background-color: #f4f4f9;
             display: flex;
             flex-direction: column;
-            height: 100vh; /* Ensure the body takes full height of the viewport */
+            height: 100vh;
         }
 
-        /* Header styles */
+        /* Header Section */
         header {
             background-color: #1b1dcc;
             color: white;
@@ -40,26 +43,18 @@
             align-items: center;
         }
 
-        .header-content {
-            display: flex;
-            align-items: center;
-            width: 100%;
+        header img {
+            height: 160px;
+            margin-right: 20px;
         }
 
         header h1 {
             font-family: 'Aerospace', sans-serif;
             font-size: 48px;
             text-align: center;
-            flex-grow: 1;
-            margin: 0;
         }
 
-        header img {
-            height: 160px;
-            margin-right: 20px;
-        }
-
-        /* Navigation bar / tabs styles */
+        /* Navigation Section */
         nav {
             background-color: #e0e0e0;
             padding: 10px;
@@ -72,7 +67,6 @@
             padding: 10px 20px;
             margin: 0 10px;
             font-size: 18px;
-            transition: background-color 0.3s ease;
         }
 
         nav a:hover {
@@ -80,13 +74,7 @@
             color: white;
         }
 
-        nav a.active {
-            background-color: #1b1dcc;
-            color: white;
-            border-radius: 0;
-        }
-
-        /* Main content section */
+        /* Main container */
         .container {
             max-width: 1200px;
             margin: 20px auto;
@@ -97,49 +85,26 @@
             flex-grow: 1;
         }
 
-        .container h2 {
-            font-size: 32px;
-            color: #333;
-            text-align: left;
-            margin-bottom: 20px;
-        }
-
-        /* Table Base Styles */
+        /* Table styles */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin: 10px 0;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        table th {
-            background-color: #1b1dcc;
-            color: white;
-            text-align: left;
+        table th,
+        table td {
             padding: 10px;
-            font-size: 16px;
             border: 1px solid #ddd;
+            text-align: center;
         }
 
         table tr:nth-child(even) {
             background-color: #f2f2f2;
         }
 
-        table tr:nth-child(odd) {
-            background-color: white;
-        }
-
-        table td {
-            padding: 10px;
-            font-size: 14px;
-            border: 1px solid #ddd;
-        }
-
-        table tr:hover {
-            background-color: #e0e0e0;
-        }
-
-        table .action-btn {
+        .action-btn {
             padding: 6px 12px;
             background-color: #1b1dcc;
             color: white;
@@ -149,16 +114,8 @@
             transition: background-color 0.3s ease;
         }
 
-        table .action-btn:hover {
+        .action-btn:hover {
             background-color: #005bb5;
-        }
-
-        @media (max-width: 768px) {
-            table td,
-            table th {
-                font-size: 12px;
-                padding: 8px;
-            }
         }
 
         /* Footer styles */
@@ -168,10 +125,14 @@
             text-align: center;
             padding: 10px 0;
             width: 100%;
+            font-size: 14px;
         }
 
-        footer small {
-            font-size: 12px;
+        /* Arrow buttons for sorting */
+        .arrow-btn {
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 5px;
         }
     </style>
 </head>
@@ -184,7 +145,7 @@
         </div>
     </header>
 
-    <!-- Navigation Tabs -->
+    <!-- Navigation Section -->
     <nav>
         <a href="index.html">About</a>
         <a href="parent-scouting.html">Parent Scouting</a>
@@ -192,20 +153,12 @@
         <a href="pit-scouting.html">Pit Scouting</a>
         <a href="team-list.html" class="active">Team List</a>
         <a href="tournament-schedule.html">Tournament Schedule</a>
-        <a href="drive-coach.html">Drice Coach</a>
+        <a href="drive-coach.html">Drive Coach</a>
     </nav>
 
     <!-- Main Content Section -->
     <div class="container">
         <h2>Team List</h2>
-        <div class="inputs-container">
-            <input id="team-name" placeholder="Team Name">
-            <input id="team-number" placeholder="Team Number">
-            <input id="team-ranking" placeholder="Team Ranking">
-            <button onclick="addTeam()">Add Team</button>
-        </div>
-
-        <!-- Team List Table -->
         <table>
             <thead>
                 <tr>
@@ -216,24 +169,7 @@
                 </tr>
             </thead>
             <tbody id="team-list">
-                <tr>
-                    <td>1</td>
-                    <td>Team Alpha</td>
-                    <td>11308</td>
-                    <td>
-                        <button class="action-btn">View</button>
-                        <button class="action-btn">Edit</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Team Beta</td>
-                    <td>11309</td>
-                    <td>
-                        <button class="action-btn">View</button>
-                        <button class="action-btn">Edit</button>
-                    </td>
-                </tr>
+                <!-- Empty to allow dynamic entry -->
             </tbody>
         </table>
     </div>
@@ -242,5 +178,56 @@
     <footer>
         <small>Brought to you by FTC YISE #11308 | All Rights Reserved | © 2024</small>
     </footer>
+
+    <script>
+        const teamListContainer = document.getElementById('team-list');
+
+        const addTeam = (name = "Team", number = "00000") => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>1</td>
+                <td>${name}</td>
+                <td>${number}</td>
+                <td>
+                    <span class="arrow-btn" onclick="moveTeamUp(this)">↑</span>
+                    <span class="arrow-btn" onclick="moveTeamDown(this)">↓</span>
+                    <button class="action-btn" onclick="editTeam(this)">Edit</button>
+                </td>
+            `;
+            teamListContainer.appendChild(tr);
+            updateRanks();
+        };
+
+        const editTeam = (btn) => {
+            const tr = btn.closest('tr');
+            const newName = prompt("Enter new team name:", tr.children[1].innerText);
+            if (newName) tr.children[1].innerText = newName;
+        };
+
+        const moveTeamUp = (btn) => {
+            const tr = btn.closest('tr');
+            const prev = tr.previousElementSibling;
+            if (prev) tr.parentElement.insertBefore(tr, prev);
+            updateRanks();
+        };
+
+        const moveTeamDown = (btn) => {
+            const tr = btn.closest('tr');
+            const next = tr.nextElementSibling;
+            if (next) tr.parentElement.insertBefore(next, tr);
+            updateRanks();
+        };
+
+        const updateRanks = () => {
+            const rows = document.querySelectorAll('#team-list tr');
+            rows.forEach((row, index) => {
+                row.children[0].innerText = index + 1; // Update rankings dynamically
+            });
+        };
+
+        // Preload with example teams
+        addTeam('Team Alpha', '11308');
+        addTeam('Team Beta', '11309');
+    </script>
 </body>
 </html>
