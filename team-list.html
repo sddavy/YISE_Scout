@@ -10,15 +10,6 @@
 
     <!-- Custom font-face rule for the Aerospace font -->
     <style>
-        /* Custom font-face rule for the Aerospace font */
-        @font-face {
-            font-family: 'Aerospace';
-            src: url('aerospace.woff') format('woff'),
-                 url('aerospace.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
-
         /* General body styling */
         body {
             font-family: Arial, sans-serif;
@@ -30,6 +21,7 @@
             height: 100vh;
         }
 
+        /* Header */
         header {
             background-color: #1b1dcc;
             color: white;
@@ -59,6 +51,7 @@
             color: white;
         }
 
+        /* Main content */
         .container {
             max-width: 1200px;
             margin: 20px auto;
@@ -69,6 +62,7 @@
             flex-grow: 1;
         }
 
+        /* Table Styling */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -109,25 +103,35 @@
         .action-btn:hover {
             background-color: #005bb5;
         }
+
+        footer {
+            background-color: #1b1dcc;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            width: 100%;
+        }
+
+        footer small {
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
     <!-- Header Section -->
     <header>
-        <div>
-            <h1>YISE Scouting</h1>
-        </div>
+        <h1>YISE Scouting</h1>
     </header>
 
     <!-- Navigation Tabs -->
     <nav>
-        <a href="index.html">About</a>
-        <a href="parent-scouting.html">Parent Scouting</a>
-        <a href="competition-scouting.html">Competition Scouting</a>
-        <a href="pit-scouting.html">Pit Scouting</a>
-        <a href="team-list.html" class="active">Team List</a>
-        <a href="tournament-schedule.html">Tournament Schedule</a>
-        <a href="drive-coach.html">Drice Coach</a>
+        <a href="#" onclick="navigate('About')">About</a>
+        <a href="#" onclick="navigate('Parent Scouting')">Parent Scouting</a>
+        <a href="#" onclick="navigate('Competition Scouting')">Competition Scouting</a>
+        <a href="#" onclick="navigate('Pit Scouting')">Pit Scouting</a>
+        <a href="#" onclick="navigate('Team List')">Team List</a>
+        <a href="#" onclick="navigate('Tournament Schedule')">Tournament Schedule</a>
+        <a href="#" onclick="navigate('Drive Coach')">Drice Coach</a>
     </nav>
 
     <!-- Main Content Section -->
@@ -151,7 +155,7 @@
                 </tr>
             </thead>
             <tbody id="team-list">
-                <!-- Dynamic rows will be inserted here -->
+                <!-- Dynamically populated rows here -->
             </tbody>
         </table>
     </div>
@@ -163,7 +167,12 @@
 
     <!-- JavaScript -->
     <script>
-        let teamCounter = 1;
+        let teams = [];
+        
+        function navigate(tabName) {
+            alert(`Navigated to: ${tabName}`);
+            console.log(`Navigated to: ${tabName}`);
+        }
 
         function addTeam() {
             const teamNameInput = document.getElementById('team-name');
@@ -172,38 +181,52 @@
 
             const teamName = teamNameInput.value.trim();
             const teamNumber = teamNumberInput.value.trim();
-            const teamRanking = teamRankingInput.value.trim();
+            const teamRanking = parseInt(teamRankingInput.value.trim(), 10);
 
-            if (!teamName || !teamNumber || !teamRanking) {
-                alert('Please fill in all fields!');
+            if (!teamName || !teamNumber || isNaN(teamRanking)) {
+                alert('Please fill out all fields with valid values!');
                 return;
             }
 
-            const teamList = document.getElementById('team-list');
-            const newRow = document.createElement('tr');
+            // Add team to array
+            teams.push({
+                name: teamName,
+                number: teamNumber,
+                ranking: teamRanking
+            });
 
-            newRow.innerHTML = `
-                <td>${teamRanking}</td>
-                <td>${teamName}</td>
-                <td>${teamNumber}</td>
-                <td>
-                    <button class="action-btn" onclick="editTeam(${teamCounter})">Edit</button>
-                </td>
-            `;
+            // Sort the array by ranking
+            teams.sort((a, b) => a.ranking - b.ranking);
 
-            teamList.appendChild(newRow);
+            renderTeamList();
 
-            teamCounter++;
-
-            // Clear input fields after adding
+            // Clear fields
             teamNameInput.value = '';
             teamNumberInput.value = '';
             teamRankingInput.value = '';
         }
 
-        function editTeam(id) {
-            alert(`Edit action triggered for team ${id}`);
-            console.log(`Edit button clicked for team ${id}`);
+        function renderTeamList() {
+            const teamListContainer = document.getElementById('team-list');
+            teamListContainer.innerHTML = ''; // Clear table
+
+            for (const team of teams) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${team.ranking}</td>
+                    <td>${team.name}</td>
+                    <td>${team.number}</td>
+                    <td>
+                        <button class="action-btn" onclick="editTeam('${team.number}')">Edit</button>
+                    </td>
+                `;
+                teamListContainer.appendChild(row);
+            }
+        }
+
+        function editTeam(teamNumber) {
+            alert(`Editing team number ${teamNumber}`);
+            console.log(`Editing team number ${teamNumber}`);
         }
     </script>
 </body>
