@@ -4,7 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YISE Scouting</title>
+
+    <!-- Link to the custom font file -->
     <style>
+        /* Include the Aerospace font */
+        @font-face {
+            font-family: 'Aerospace';
+            src: url('fonts/Aerospace.otf') format('opentype'); /* Adjust the path as necessary */
+            font-weight: normal;
+            font-style: normal;
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -27,6 +37,7 @@
             font-size: 48px; /* Increased size for header */
             text-align: center;
             flex-grow: 1; /* Make sure the header text stays centered */
+            font-family: 'Aerospace', sans-serif; /* Apply the Aerospace font */
         }
 
         header img {
