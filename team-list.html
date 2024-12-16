@@ -33,21 +33,20 @@
         header {
             background-color: #1b1dcc;
             color: white;
-            padding: 20px;
+            padding: 10px 20px;
             display: flex;
-            justify-content: center;
             align-items: center;
+        }
+
+        header img {
+            height: 60px;
+            margin-right: 15px;
         }
 
         header h1 {
             font-family: 'Aerospace', sans-serif;
-            font-size: 48px;
+            font-size: 36px;
             margin: 0;
-        }
-
-        header img {
-            height: 160px;
-            margin-right: 20px;
         }
 
         /* Navigation Tabs */
@@ -93,16 +92,24 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         th, td {
-            padding: 12px;
+            padding: 12px 15px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
 
         th {
             background-color: #f4f4f4;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
         }
 
         button {
@@ -111,6 +118,8 @@
             color: white;
             border: none;
             cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
         }
 
         button:hover {
@@ -136,7 +145,7 @@
     <!-- Header Section -->
     <header>
         <img src="yise.png" alt="YISE Scouting Logo">
-        <h1>YISE Scouting - Team List</h1>
+        <h1>YISE Scouting</h1>
     </header>
 
     <!-- Navigation Tabs -->
@@ -162,9 +171,9 @@
         <table>
             <thead>
                 <tr>
+                    <th>Ranking</th>
                     <th>Team Name</th>
                     <th>Team Number</th>
-                    <th>Ranking</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -177,7 +186,7 @@
         <small>Brought to you by FTC YISE #11308 | All Rights Reserved | © 2024</small>
     </footer>
 
-    <!-- Script for local cookies logic -->
+    <!-- Script for local cookies logic & team sort -->
     <script>
         function saveToCookies(teams) {
             document.cookie = `teams=${encodeURIComponent(JSON.stringify(teams))}; path=/; max-age=31536000`;
@@ -193,13 +202,14 @@
         function renderTeams() {
             const teamListEl = document.getElementById('team-list');
             teamListEl.innerHTML = '';
-            const teams = loadFromCookies();
+            const teams = loadFromCookies().sort((a, b) => b.ranking - a.ranking);
+
             teams.forEach((team, index) => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
+                    <td>${team.ranking}</td>
                     <td>${team.name}</td>
                     <td>#${team.number}</td>
-                    <td>${team.ranking}</td>
                     <td><button onclick="removeTeam(${index})">Remove</button></td>
                 `;
                 teamListEl.appendChild(row);
