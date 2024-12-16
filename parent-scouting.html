@@ -47,6 +47,35 @@
             margin-right: 20px;
         }
 
+        /* Navigation bar / tabs styles */
+        nav {
+            background-color: #e0e0e0; /* Grey background for tabs */
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Hover effect - Darker grey */
+        nav a:hover {
+            background-color: #b0b0b0; /* Darker grey on hover */
+            color: white;
+        }
+
+        /* Active tab color */
+        nav a.active {
+            background-color: #e0e0e0; /* Same as background */
+            color: #333;
+        }
+
         /* Main content section */
         .container {
             max-width: 900px;
@@ -75,9 +104,6 @@
             color: white;
             text-align: center;
             padding: 10px 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
         }
 
         footer small {
@@ -95,12 +121,21 @@
         </div>
     </header>
 
+    <!-- Navigation Tabs -->
+    <nav>
+        <a href="about.html">About</a>
+        <a href="parent-scouting.html" class="active">Parent Scouting</a>
+        <a href="competition-scouting.html">Competition Scouting</a>
+        <a href="pit-scouting.html">Pit Scouting</a>
+        <a href="team-list.html">Team List</a>
+        <a href="tournament-schedule.html">Tournament Schedule</a>
+        <a href="drive-coach.html">Drive Coach</a>
+    </nav>
+
     <!-- Main Content Section -->
     <div class="container">
         <h2>Parent Scouting</h2>
-        <p>
-            Example Text
-        </p>
+        <p>Example Text</p> <!-- One line of example text -->
     </div>
 
     <!-- Footer Section -->
