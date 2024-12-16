@@ -13,13 +13,13 @@
         /* Custom font-face rule for the Aerospace font */
         @font-face {
             font-family: 'Aerospace';
-            src: url('aerospace.woff') format('woff'), 
+            src: url('aerospace.woff') format('woff'), /* Adjust the path to your font file */
                  url('aerospace.ttf') format('truetype');
             font-weight: normal;
             font-style: normal;
         }
 
-        /* General Reset */
+        /* Basic styles for the body */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -27,30 +27,40 @@
             background-color: #f4f4f9;
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            height: 100vh; /* Ensure the body takes full height of the viewport */
         }
 
-        /* Header */
+        /* Header styles */
         header {
-            background-color: #1b1dcc;
+            background-color: #1b1dcc; /* Blue background for header */
             color: white;
             padding: 20px;
             display: flex;
-            justify-content: center;
+            justify-content: center; /* Center the content of the header */
             align-items: center;
         }
 
-        header img {
-            height: 160px;
-            margin-right: 20px;
+        /* Container for the logo and text */
+        .header-content {
+            display: flex;
+            align-items: center;
+            width: 100%;
         }
 
+        /* Apply Aerospace font to only the main header text (h1) */
         header h1 {
+            font-family: 'Aerospace', sans-serif; /* Apply the Aerospace font */
             font-size: 48px;
             text-align: center;
             flex-grow: 1;
+            margin: 0;
         }
 
+        /* Logo styling (increased size) */
+        header img {
+            height: 160px; /* Increased logo size */
+            margin-right: 20px;
+        }
         /* Navigation Bar */
         nav {
             background-color: #e0e0e0;
