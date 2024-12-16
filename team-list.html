@@ -181,7 +181,7 @@
         <table>
             <thead>
                 <tr>
-                    <th>Actions</th>
+                    <th>Order</th>
                     <th>Ranking</th>
                     <th>Team Name</th>
                     <th>Team Number</th>
@@ -197,13 +197,9 @@
         <small>Brought to you by FTC YISE #11308 | All Rights Reserved | © 2024</small>
     </footer>
 
+
     <script>
         const teamListContainer = document.getElementById('team-list');
-
-        function loadTeams() {
-            const savedTeams = JSON.parse(localStorage.getItem('teams')) || [];
-            savedTeams.forEach(team => displayTeam(team));
-        }
 
         function saveTeams() {
             const teams = Array.from(teamListContainer.children).map(tr => ({
@@ -212,6 +208,11 @@
                 number: tr.children[3].innerText,
             }));
             localStorage.setItem('teams', JSON.stringify(teams));
+        }
+
+        function loadTeams() {
+            const savedTeams = JSON.parse(localStorage.getItem('teams')) || [];
+            savedTeams.forEach(team => displayTeam(team));
         }
 
         function addTeam() {
@@ -251,6 +252,33 @@
             teamListContainer.appendChild(tr);
         }
 
+        function moveTeamUp(btn) {
+            const tr = btn.closest('tr');
+            const prev = tr.previousElementSibling;
+            if (prev) {
+                tr.parentElement.insertBefore(tr, prev);
+                reassignRankings();
+                saveTeams();
+            }
+        }
+
+        function moveTeamDown(btn) {
+            const tr = btn.closest('tr');
+            const next = tr.nextElementSibling;
+            if (next) {
+                tr.parentElement.insertBefore(next, tr);
+                reassignRankings();
+                saveTeams();
+            }
+        }
+
+        function reassignRankings() {
+            const rows = Array.from(teamListContainer.children);
+            rows.forEach((row, index) => {
+                row.children[1].innerText = index + 1; // Reassign the ranking value based on row index
+            });
+        }
+
         function editTeam(btn) {
             const tr = btn.closest('tr');
             tr.children[1].innerText = prompt("New Ranking:", tr.children[1].innerText) || tr.children[1].innerText;
@@ -261,6 +289,7 @@
 
         function deleteTeam(btn) {
             btn.closest('tr').remove();
+            reassignRankings();
             saveTeams();
         }
 
