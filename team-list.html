@@ -9,7 +9,16 @@
     <link rel="icon" href="yise.png" type="image/png">
 
     <style>
-        /* General Styles */
+        /* Custom font-face rule for the Aerospace font */
+        @font-face {
+            font-family: 'Aerospace';
+            src: url('aerospace.woff') format('woff'),
+                 url('aerospace.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* Reset & basic body styling */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -37,6 +46,7 @@
         }
 
         header h1 {
+            font-family: 'Aerospace', sans-serif;
             font-size: 48px;
             text-align: center;
             flex-grow: 1;
@@ -46,6 +56,26 @@
         header img {
             height: 160px;
             margin-right: 20px;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: #e0e0e0;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 18px;
+        }
+
+        nav a:hover {
+            background-color: #b0b0b0;
+            color: white;
         }
 
         /* Input Section */
@@ -66,6 +96,17 @@
             border: none;
             cursor: pointer;
             transition: background-color 0.3s ease;
+        }
+
+        /* Main Content Section */
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            flex-grow: 1;
         }
 
         /* Table Styles */
@@ -89,25 +130,17 @@
             margin-right: 8px;
         }
 
-        .edit-btn {
-            background-color: blue;
-            color: white;
-            padding: 6px 10px;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
         table tr:hover {
             background-color: #e0e0e0;
         }
 
-        /* Footer */
+        /* Footer Styles */
         footer {
             background-color: #1b1dcc;
             color: white;
             text-align: center;
             padding: 10px 0;
+            width: 100%;
             font-size: 14px;
         }
     </style>
@@ -121,17 +154,28 @@
         </div>
     </header>
 
-    <!-- Input Section -->
-    <div class="inputs-container">
-        <input id="team-name" placeholder="Team Name">
-        <input id="team-number" placeholder="Team Number">
-        <input id="team-ranking" placeholder="Team Ranking">
-        <button onclick="addTeam()">Add Team</button>
-    </div>
+    <!-- Navigation Tabs -->
+    <nav>
+        <a href="index.html">About</a>
+        <a href="parent-scouting.html">Parent Scouting</a>
+        <a href="competition-scouting.html">Competition Scouting</a>
+        <a href="pit-scouting.html">Pit Scouting</a>
+        <a href="team-list.html" class="active">Team List</a>
+        <a href="tournament-schedule.html">Tournament Schedule</a>
+        <a href="drive-coach.html">Drive Coach</a>
+    </nav>
 
     <!-- Main Content Section -->
     <div class="container">
         <h2>Team List</h2>
+        <div class="inputs-container">
+            <input id="team-name" placeholder="Team Name">
+            <input id="team-number" placeholder="Team Number">
+            <input id="team-ranking" placeholder="Team Ranking">
+            <button onclick="addTeam()">Add Team</button>
+        </div>
+
+        <!-- Team List Table -->
         <table>
             <thead>
                 <tr>
@@ -139,7 +183,6 @@
                     <th>Ranking</th>
                     <th>Team Name</th>
                     <th>Team Number</th>
-                    <th>Options</th>
                 </tr>
             </thead>
             <tbody id="team-list">
@@ -156,9 +199,9 @@
         const teamListContainer = document.getElementById('team-list');
 
         const addTeam = () => {
-            const name = document.getElementById('team-name').value.trim();
-            const number = document.getElementById('team-number').value.trim();
-            const ranking = document.getElementById('team-ranking').value.trim();
+            const name = document.getElementById('team-name').value;
+            const number = document.getElementById('team-number').value;
+            const ranking = document.getElementById('team-ranking').value;
 
             if (!name || !number || !ranking) return alert("Please fill in all fields");
 
@@ -167,20 +210,13 @@
                 <td>
                     <span class="arrow-btn" onclick="moveTeamUp(this)">↑</span>
                     <span class="arrow-btn" onclick="moveTeamDown(this)">↓</span>
+                    <button onclick="editTeam(this)">Edit</button>
                 </td>
                 <td>${ranking}</td>
                 <td>${name}</td>
                 <td>${number}</td>
-                <td>
-                    <button class="edit-btn" onclick="editTeam(this)">Edit</button>
-                </td>
             `;
             teamListContainer.appendChild(tr);
-
-            // Clear input fields
-            document.getElementById('team-name').value = '';
-            document.getElementById('team-number').value = '';
-            document.getElementById('team-ranking').value = '';
         };
 
         const editTeam = (btn) => {
