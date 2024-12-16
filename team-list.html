@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,24 +8,18 @@
     <!-- Add the favicon link -->
     <link rel="icon" href="yise.png" type="image/png">
 
-    <!-- Custom Font -->
+    <!-- Custom font-face rule for the Aerospace font -->
     <style>
-        /* Load custom font - adjust path to your actual font file location */
+        /* Custom font-face rule for the Aerospace font */
         @font-face {
             font-family: 'Aerospace';
-            src: url('aerospace.woff') format('woff'),
+            src: url('aerospace.woff') format('woff'), /* Adjust the path to your font file */
                  url('aerospace.ttf') format('truetype');
             font-weight: normal;
             font-style: normal;
         }
 
-        /* General Reset */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        /* Basic styles for the body */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -34,30 +27,44 @@
             background-color: #f4f4f9;
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            height: 100vh; /* Ensure the body takes full height of the viewport */
         }
 
-        /* Header Section */
+        /* Header styles */
         header {
-            background-color: #1b1dcc;
+            background-color: #1b1dcc; /* Blue background for header */
             color: white;
-            padding: 15px 0;
+            padding: 20px;
             display: flex;
-            justify-content: center;
+            justify-content: center; /* Center the content of the header */
             align-items: center;
-            font-size: 36px; /* Adjusted font size */
-            font-family: 'Aerospace', Arial, sans-serif;
-            height: 80px;
         }
 
+        /* Container for the logo and text */
+        .header-content {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* Apply Aerospace font to only the main header text (h1) */
+        header h1 {
+            font-family: 'Aerospace', sans-serif; /* Apply the Aerospace font */
+            font-size: 48px;
+            text-align: center;
+            flex-grow: 1;
+            margin: 0;
+        }
+
+        /* Logo styling (increased size) */
         header img {
-            height: 60px; /* Adjusted logo size */
-            margin-right: 15px;
+            height: 160px; /* Increased logo size */
+            margin-right: 20px;
         }
 
-        /* Navigation */
+        /* Navigation bar / tabs styles */
         nav {
-            background-color: #e0e0e0;
+            background-color: #e0e0e0; /* Grey background for tabs */
             padding: 10px;
             text-align: center;
         }
@@ -67,48 +74,70 @@
             color: #333;
             padding: 10px 20px;
             margin: 0 10px;
-            font-size: 16px;
+            font-size: 18px;
             transition: background-color 0.3s ease;
         }
 
+        /* Hover effect - Darker grey */
         nav a:hover {
-            background-color: #b0b0b0;
+            background-color: #b0b0b0; /* Darker grey on hover */
             color: white;
         }
 
+        /* Active tab style - No rounded corners, blue background */
         nav a.active {
-            background-color: #1b1dcc;
+            background-color: #1b1dcc; /* Blue background for active tab */
             color: white;
-            border-radius: 0;
+            border-radius: 0; /* Remove rounded corners */
         }
 
-        /* Main Content Area */
+        /* Main content section */
         .container {
-            max-width: 1200px;
+            max-width: 1200px;  /* Set width to 1200px */
             margin: 20px auto;
             padding: 20px;
             background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            flex-grow: 1;
+            flex-grow: 1; /* This will push the footer to the bottom */
         }
 
-        /* Footer Section */
+        /* Text styles for content */
+        .container h2 {
+            font-size: 32px;
+            color: #333;
+            text-align: left;
+            margin-bottom: 20px; /* Optional spacing between header and content */
+        }
+
+        .container p {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Footer styles */
         footer {
-            background-color: #1b1dcc;
+            background-color: #1b1dcc; /* Blue background */
             color: white;
             text-align: center;
             padding: 10px 0;
             width: 100%;
         }
+
+        footer small {
+            font-size: 12px;
+        }
     </style>
 </head>
-
 <body>
+
     <!-- Header Section -->
     <header>
-        <img src="yise.png" alt="YISE Logo"> <!-- Logo here -->
-        <h1>YISE Scouting</h1>
+        <div class="header-content">
+            <img src="yise.png" alt="YISE Scouting Logo"> <!-- Logo on the left -->
+            <h1>YISE Scouting</h1> <!-- Centered text -->
+        </div>
     </header>
 
     <!-- Navigation Tabs -->
