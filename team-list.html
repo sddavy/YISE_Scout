@@ -4,98 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Team List - YISE Scouting</title>
-
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-
-    <script>
-        // Firebase Configuration
-        const firebaseConfig = {
-          apiKey: "AIzaSyArO0qqSJEuWzyuUcc9-aUDf5eUCDsHZbY",
-          authDomain: "yise-scout.firebaseapp.com",
-          projectId: "yise-scout",
-          storageBucket: "yise-scout.firebasestorage.app",
-          messagingSenderId: "248647870137",
-          appId: "1:248647870137:web:a16a44b64aca48eef7dd68"
-        };
-
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore(app);
-
-        // Load teams from Firestore
-        async function loadTeams() {
-            try {
-                const snapshot = await db.collection('teams').orderBy('ranking', 'desc').get();
-                const teamList = document.getElementById("team-list").getElementsByTagName("tbody")[0];
-                teamList.innerHTML = "";  // Clear current list
-
-                snapshot.forEach(doc => {
-                    const team = doc.data();
-                    const row = teamList.insertRow();
-                    row.insertCell(0).textContent = team.name;
-                    row.insertCell(1).textContent = "#" + team.number;
-                    row.insertCell(2).textContent = team.ranking;
-                    row.insertCell(3).innerHTML = `
-                        <button onclick="editTeam('${doc.id}')">Edit</button>
-                        <button onclick="removeTeam('${doc.id}')">Remove</button>
-                    `;
-                });
-            } catch (error) {
-                console.error("Error loading teams: ", error);
-            }
-        }
-
-        // Add a new team to Firestore
-        async function addTeam() {
-            const teamName = document.getElementById("team-name").value;
-            const teamNumber = document.getElementById("team-number").value;
-            const teamRanking = document.getElementById("team-ranking").value;
-
-            // Validate input fields
-            if (!teamName || !teamNumber || !teamRanking) {
-                alert("Please fill out all fields.");
-                return;
-            }
-
-            try {
-                await db.collection('teams').add({
-                    name: teamName,
-                    number: parseInt(teamNumber),
-                    ranking: parseInt(teamRanking)
-                });
-                loadTeams();  // Reload the team list
-                document.getElementById("team-name").value = ''; // Clear input fields
-                document.getElementById("team-number").value = '';
-                document.getElementById("team-ranking").value = '';
-            } catch (error) {
-                console.error("Error adding team: ", error);
-            }
-        }
-
-        // Remove a team from Firestore
-        async function removeTeam(id) {
-            try {
-                await db.collection('teams').doc(id).delete();
-                loadTeams();  // Reload the team list
-            } catch (error) {
-                console.error("Error removing team: ", error);
-            }
-        }
-
-        // Edit a team - Placeholder for actual editing logic
-        function editTeam(id) {
-            // Placeholder for edit functionality (can be expanded to edit a team's details)
-            alert('Edit team ' + id);
-        }
-
-        // Load teams on page load
-        window.onload = loadTeams;
-    </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@11.0.1"></script>
     <style>
-        /* Custom styling for the page */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -121,11 +31,6 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             flex-grow: 1;
-        }
-
-        h1, h3 {
-            font-size: 32px;
-            color: #333;
         }
 
         input {
@@ -170,7 +75,6 @@
     </style>
 </head>
 <body>
-
     <header>
         <h1>YISE Scouting - Team List</h1>
     </header>
@@ -193,10 +97,85 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Team rows will be inserted here dynamically -->
+                <!-- Team rows will be dynamically inserted here -->
             </tbody>
         </table>
     </div>
 
+    <script>
+        // Initialize Appwrite SDK
+        const client = new Appwrite.Client()
+            .setEndpoint('https://cloud.appwrite.io/v1') // Replace with your Appwrite endpoint
+            .setProject('YOUR_PROJECT_ID'); // Replace with your Appwrite project ID
+
+        const database = new Appwrite.Databases(client, 'YOUR_DATABASE_ID'); // Replace with your Appwrite database ID
+
+        // Load teams from Appwrite database
+        async function loadTeams() {
+            try {
+                const response = await database.listDocuments('teams', [], { orderBy: ['ranking'], orderType: 'DESC' });
+                const teams = response.documents;
+                const teamList = document.getElementById("team-list").getElementsByTagName("tbody")[0];
+                teamList.innerHTML = ""; // Clear current list
+
+                teams.forEach(team => {
+                    const row = teamList.insertRow();
+                    row.insertCell(0).textContent = team.name;
+                    row.insertCell(1).textContent = "#" + team.number;
+                    row.insertCell(2).textContent = team.ranking;
+                    row.insertCell(3).innerHTML = `
+                        <button onclick="editTeam('${team.$id}')">Edit</button>
+                        <button onclick="removeTeam('${team.$id}')">Remove</button>
+                    `;
+                });
+            } catch (error) {
+                console.error("Error loading teams:", error);
+            }
+        }
+
+        // Add a new team
+        async function addTeam() {
+            const teamName = document.getElementById("team-name").value;
+            const teamNumber = document.getElementById("team-number").value;
+            const teamRanking = document.getElementById("team-ranking").value;
+
+            if (!teamName || !teamNumber || !teamRanking) {
+                alert("Please fill out all fields.");
+                return;
+            }
+
+            try {
+                await database.createDocument('teams', 'unique()', {
+                    name: teamName,
+                    number: parseInt(teamNumber),
+                    ranking: parseInt(teamRanking)
+                });
+                loadTeams();
+                document.getElementById("team-name").value = '';
+                document.getElementById("team-number").value = '';
+                document.getElementById("team-ranking").value = '';
+            } catch (error) {
+                console.error("Error adding team:", error);
+            }
+        }
+
+        // Remove a team
+        async function removeTeam(teamId) {
+            try {
+                await database.deleteDocument('teams', teamId);
+                loadTeams();
+            } catch (error) {
+                console.error("Error removing team:", error);
+            }
+        }
+
+        // Edit a team (placeholder for actual editing logic)
+        function editTeam(teamId) {
+            alert(`Edit team with ID: ${teamId}`);
+        }
+
+        // Load teams when the page loads
+        window.onload = loadTeams;
+    </script>
 </body>
 </html>
