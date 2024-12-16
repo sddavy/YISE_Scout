@@ -18,8 +18,7 @@
             padding: 15px;
             display: flex;
             align-items: center;
-            justify-content: center; /* Centers the content horizontally */
-            text-align: center; /* Ensures the text is centered */
+            justify-content: center; /* Centers the text */
         }
         header h1 {
             margin: 0;
@@ -28,7 +27,7 @@
         /* Default logo size (for mobile and small screens) */
         header img {
             height: 100px; /* Default size */
-            margin-right: 15px; /* Space between logo and text */
+            margin-left: auto; /* Pushes the logo to the right */
         }
         /* Layout for larger screens (laptops and desktops) */
         @media (min-width: 768px) {
@@ -92,8 +91,8 @@
 
     <!-- Header Section -->
     <header>
-        <img src="yise.png" alt="YISE Scouting Logo"> <!-- Add your logo image here -->
-        <h1>YISE Scouting</h1>
+        <h1>YISE Scouting</h1> <!-- Text centered -->
+        <img src="yise.png" alt="YISE Scouting Logo"> <!-- Logo on the right -->
     </header>
 
     <!-- Main Content Section -->
