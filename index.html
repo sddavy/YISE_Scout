@@ -18,20 +18,25 @@
             padding: 15px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center; /* Centers the content horizontally */
+            text-align: center; /* Ensures the text is centered */
         }
         header h1 {
             margin: 0;
-            font-size: 24px;
+            font-size: 24px; /* Default font size for small screens */
         }
         /* Default logo size (for mobile and small screens) */
         header img {
             height: 100px; /* Default size */
+            margin-right: 15px; /* Space between logo and text */
         }
         /* Layout for larger screens (laptops and desktops) */
         @media (min-width: 768px) {
             header img {
                 height: 200px; /* Increased size for larger screens */
+            }
+            header h1 {
+                font-size: 36px; /* Larger font size for larger screens */
             }
         }
         /* Container Styles */
