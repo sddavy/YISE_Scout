@@ -13,13 +13,13 @@
         /* Custom font-face rule for the Aerospace font */
         @font-face {
             font-family: 'Aerospace';
-            src: url('aerospace.woff') format('woff'), /* Adjust the path to your font file */
+            src: url('aerospace.woff') format('woff'), 
                  url('aerospace.ttf') format('truetype');
             font-weight: normal;
             font-style: normal;
         }
 
-        /* Basic styles for the body */
+        /* General Reset */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -27,44 +27,33 @@
             background-color: #f4f4f9;
             display: flex;
             flex-direction: column;
-            height: 100vh; /* Ensure the body takes full height of the viewport */
+            height: 100vh;
         }
 
-        /* Header styles */
+        /* Header */
         header {
-            background-color: #1b1dcc; /* Blue background for header */
+            background-color: #1b1dcc;
             color: white;
             padding: 20px;
             display: flex;
-            justify-content: center; /* Center the content of the header */
+            justify-content: center;
             align-items: center;
         }
 
-        /* Container for the logo and text */
-        .header-content {
-            display: flex;
-            align-items: center;
-            width: 100%;
-        }
-
-        /* Apply Aerospace font to only the main header text (h1) */
-        header h1 {
-            font-family: 'Aerospace', sans-serif; /* Apply the Aerospace font */
-            font-size: 48px;
-            text-align: center;
-            flex-grow: 1;
-            margin: 0;
-        }
-
-        /* Logo styling (increased size) */
         header img {
-            height: 160px; /* Increased logo size */
+            height: 160px;
             margin-right: 20px;
         }
 
-        /* Navigation bar / tabs styles */
+        header h1 {
+            font-size: 48px;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        /* Navigation Bar */
         nav {
-            background-color: #e0e0e0; /* Grey background for tabs */
+            background-color: #e0e0e0;
             padding: 10px;
             text-align: center;
         }
@@ -75,93 +64,29 @@
             padding: 10px 20px;
             margin: 0 10px;
             font-size: 18px;
-            transition: background-color 0.3s ease;
         }
 
-        /* Hover effect - Darker grey */
         nav a:hover {
-            background-color: #b0b0b0; /* Darker grey on hover */
+            background-color: #b0b0b0;
             color: white;
         }
 
-        /* Active tab style - No rounded corners, blue background */
-        nav a.active {
-            background-color: #1b1dcc; /* Blue background for active tab */
-            color: white;
-            border-radius: 0; /* Remove rounded corners */
-        }
-
-        /* Main content section */
+        /* Container */
         .container {
-            max-width: 1200px;  /* Set width to 1200px */
+            max-width: 1200px;
             margin: 20px auto;
             padding: 20px;
             background-color: white;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            flex-grow: 1; /* This will push the footer to the bottom */
-        }
-
-        /* Text styles for content */
-        .container h2 {
-            font-size: 32px;
-            color: #333;
-            text-align: left;
-            margin-bottom: 20px; /* Optional spacing between header and content */
-        }
-
-        .container p {
-            font-size: 18px;
-            color: #555;
-            line-height: 1.6;
-        }
-
-        /* Footer styles */
-        footer {
-            background-color: #1b1dcc; /* Blue background */
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-            width: 100%;
-        }
-
-        footer small {
-            font-size: 12px;
-        }
-
-        /* Header Section */
-        header {
-            background-color: #1b1dcc;
-            color: white;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        header .header-content {
-            display: flex;
-            align-items: center;
-            width: 100%;
-        }
-
-        header h1 {
-            font-size: 48px;
-            text-align: center;
             flex-grow: 1;
-            margin: 0;
         }
 
-        header img {
-            height: 160px;
-            margin-right: 20px;
-        }
-
-        /* Table & Buttons */
+        /* Table Styles */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
+            margin: 10px 0;
         }
 
         table th,
@@ -178,7 +103,9 @@
             margin: 5px;
         }
 
-        .edit-btn {
+        /* Edit/Delete Buttons */
+        .edit-btn,
+        .delete-btn {
             background-color: blue;
             color: white;
             padding: 6px 12px;
@@ -188,11 +115,19 @@
             transition: background-color 0.3s ease;
         }
 
+        .delete-btn {
+            background-color: red;
+        }
+
         .edit-btn:hover {
             background-color: darkblue;
         }
 
-        /* Input & Footer Styling */
+        .delete-btn:hover {
+            background-color: darkred;
+        }
+
+        /* Footer */
         footer {
             background-color: #1b1dcc;
             color: white;
@@ -205,12 +140,13 @@
 <body>
     <!-- Header Section -->
     <header>
-        <div class="header-content">
+        <div>
             <img src="yise.png" alt="YISE Scouting Logo">
             <h1>YISE Scouting</h1>
         </div>
     </header>
 
+    <!-- Navigation Section -->
     <nav>
         <a href="index.html">About</a>
         <a href="parent-scouting.html">Parent Scouting</a>
@@ -218,10 +154,9 @@
         <a href="pit-scouting.html">Pit Scouting</a>
         <a href="team-list.html" class="active">Team List</a>
         <a href="tournament-schedule.html">Tournament Schedule</a>
-        <a href="drive-coach.html">Drice Coach</a>
     </nav>
 
-    <!-- Main Content Section -->
+    <!-- Main Content -->
     <div class="container">
         <h2>Team List</h2>
         <div class="inputs-container">
@@ -239,6 +174,7 @@
                     <th>Ranking</th>
                     <th>Team Name</th>
                     <th>Team Number</th>
+                    <th>Options</th>
                 </tr>
             </thead>
             <tbody id="team-list"></tbody>
@@ -253,13 +189,11 @@
     <script>
         const teamListContainer = document.getElementById('team-list');
 
-        // Load from local storage
         function loadTeams() {
             const savedTeams = JSON.parse(localStorage.getItem('teams')) || [];
             savedTeams.forEach(team => displayTeam(team));
         }
 
-        // Save to local storage
         function saveTeams() {
             const teams = Array.from(teamListContainer.children).map(tr => ({
                 ranking: tr.children[1].innerText,
@@ -269,7 +203,7 @@
             localStorage.setItem('teams', JSON.stringify(teams));
         }
 
-        const addTeam = () => {
+        function addTeam() {
             const name = document.getElementById('team-name').value;
             const number = document.getElementById('team-number').value;
             const ranking = document.getElementById('team-ranking').value;
@@ -280,60 +214,46 @@
             displayTeam(team);
             saveTeams();
             clearInputs();
-        };
+        }
 
-        const clearInputs = () => {
+        function clearInputs() {
             document.getElementById('team-name').value = '';
             document.getElementById('team-number').value = '';
             document.getElementById('team-ranking').value = '';
-        };
+        }
 
-        const displayTeam = (team) => {
+        function displayTeam(team) {
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>
                     <span class="arrow-btn" onclick="moveTeamUp(this)">↑</span>
                     <span class="arrow-btn" onclick="moveTeamDown(this)">↓</span>
-                    <button class="edit-btn" onclick="editTeam(this)">Edit</button>
                 </td>
                 <td>${team.ranking}</td>
                 <td>${team.name}</td>
                 <td>${team.number}</td>
+                <td>
+                    <button class="edit-btn" onclick="editTeam(this)">Edit</button>
+                    <button class="delete-btn" onclick="deleteTeam(this)">Delete</button>
+                </td>
             `;
             teamListContainer.appendChild(tr);
-        };
+        }
 
-        const editTeam = (btn) => {
+        function editTeam(btn) {
             const tr = btn.closest('tr');
-            const newRanking = prompt("Edit Ranking:", tr.children[1].innerText);
-            const newName = prompt("Edit Name:", tr.children[2].innerText);
-            const newNumber = prompt("Edit Number:", tr.children[3].innerText);
-
-            if (newRanking) tr.children[1].innerText = newRanking;
-            if (newName) tr.children[2].innerText = newName;
-            if (newNumber) tr.children[3].innerText = newNumber;
-
+            tr.children[1].innerText = prompt("New Ranking:", tr.children[1].innerText) || tr.children[1].innerText;
+            tr.children[2].innerText = prompt("New Name:", tr.children[2].innerText) || tr.children[2].innerText;
+            tr.children[3].innerText = prompt("New Number:", tr.children[3].innerText) || tr.children[3].innerText;
             saveTeams();
-        };
+        }
 
-        const moveTeamUp = (btn) => {
-            const tr = btn.closest('tr');
-            const prev = tr.previousElementSibling;
-            if (prev) tr.parentElement.insertBefore(tr, prev);
+        function deleteTeam(btn) {
+            btn.closest('tr').remove();
             saveTeams();
-        };
+        }
 
-        const moveTeamDown = (btn) => {
-            const tr = btn.closest('tr');
-            const next = tr.nextElementSibling;
-            if (next) tr.parentElement.insertBefore(next, tr);
-            saveTeams();
-        };
-
-        // Initial load from local storage
         loadTeams();
-
-        // Save on any changes
         window.onbeforeunload = saveTeams;
     </script>
 </body>
