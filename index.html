@@ -19,14 +19,14 @@
             padding: 30px 20px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            flex-direction: column;
+            justify-content: flex-start; /* Align to the left */
         }
 
         header h1 {
             margin: 0;
             font-size: 48px; /* Increased size for header */
             text-align: center;
+            flex-grow: 1; /* Make sure the header text stays centered */
         }
 
         header img {
@@ -83,7 +83,7 @@
             border-radius: 8px;
         }
 
-        /* Button styles for links
+        /* Button styles for links (like in previous version) */
         .button {
             display: block;
             width: 100%;
@@ -110,7 +110,7 @@
     <!-- Header Section -->
     <header>
         <img src="yise.png" alt="YISE Scouting Logo"> <!-- Logo on the left -->
-        <h1>YISE Scouting</h1> <!-- Text centered -->
+        <h1>YISE Scouting</h1> <!-- Text centered in the header -->
     </header>
 
     <!-- Tab Navigation -->
@@ -121,12 +121,12 @@
         <a href="pit_scouting.html" class="tab">Pit Scouting</a>
         <a href="team_list.html" class="tab">Team List</a>
         <a href="schedule.html" class="tab">Tournament Schedule</a>
-        <a href="drive_coach.html" class="tab">Drive Coach</a> 
+        <a href="drive_coach.html" class="tab">Drive Coach</a> <!-- Changed to Drive Coach -->
     </div>
 
     <!-- Main Content Section -->
     <div class="container">
-        <p>Sample Text</p>
+        <p>Welcome to YISE Scouting! Click the tabs above to navigate to different sections of the site.</p>
     </div>
 
 </body>
