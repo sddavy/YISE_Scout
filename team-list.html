@@ -5,29 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Team List - YISE Scouting</title>
 
-    <link rel="icon" href="yise.png" type="image/png">
-
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 
     <script>
-        // Firebase configuration
+        // Firebase Configuration
         const firebaseConfig = {
-          apiKey: "AIzaSyArO0qqSJEuWzyuUcc9-aUDf5eUCDsHZbY",
-          authDomain: "yise-scout.firebaseapp.com",
-          projectId: "yise-scout",
-          storageBucket: "yise-scout.firebasestorage.app",
-          messagingSenderId: "248647870137",
-          appId: "1:248647870137:web:a16a44b64aca48eef7dd68"
+            apiKey: "your-api-key",
+            authDomain: "your-project-id.firebaseapp.com",
+            projectId: "your-project-id",
+            storageBucket: "your-project-id.appspot.com",
+            messagingSenderId: "your-sender-id",
+            appId: "your-app-id"
         };
 
         // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+        const db = firebase.firestore(app);
+
+        // Load teams from Firestore
+        async function loadTeams() {
+            try {
+                const snapshot = await db.collection('teams').orderBy('ranking', 'desc').get();
+                const teamList = document.getElementById("team-list").getElementsByTagName("tbody")[0];
+                teamList.innerHTML = "";  // Clear current list
+
+                snapshot.forEach(doc => {
+                    const team = doc.data();
+                    const row = teamList.insertRow();
+                    row.insertCell(0).textContent = team.name;
+                    row.insertCell(1).textContent = "#" + team.number;
+                    row.insertCell(2).textContent = team.ranking;
+                    row.insertCell(3).innerHTML = `
+                        <button onclick="editTeam('${doc.id}')">Edit</button>
+                        <button onclick="removeTeam('${doc.id}')">Remove</button>
+                    `;
+                });
+            } catch (error) {
+                console.error("Error loading teams: ", error);
+            }
+        }
+
+        // Add a new team to Firestore
+        async function addTeam() {
+            const teamName = document.getElementById("team-name").value;
+            const teamNumber = document.getElementById("team-number").value;
+            const teamRanking = document.getElementById("team-ranking").value;
+
+            // Validate input fields
+            if (!teamName || !teamNumber || !teamRanking) {
+                alert("Please fill out all fields.");
+                return;
+            }
+
+            try {
+                await db.collection('teams').add({
+                    name: teamName,
+                    number: parseInt(teamNumber),
+                    ranking: parseInt(teamRanking)
+                });
+                loadTeams();  // Reload the team list
+                document.getElementById("team-name").value = ''; // Clear input fields
+                document.getElementById("team-number").value = '';
+                document.getElementById("team-ranking").value = '';
+            } catch (error) {
+                console.error("Error adding team: ", error);
+            }
+        }
+
+        // Remove a team from Firestore
+        async function removeTeam(id) {
+            try {
+                await db.collection('teams').doc(id).delete();
+                loadTeams();  // Reload the team list
+            } catch (error) {
+                console.error("Error removing team: ", error);
+            }
+        }
+
+        // Edit a team - Placeholder for actual editing logic
+        function editTeam(id) {
+            // Placeholder for edit functionality (can be expanded to edit a team's details)
+            alert('Edit team ' + id);
+        }
+
+        // Load teams on page load
+        window.onload = loadTeams;
     </script>
 
     <style>
+        /* Custom styling for the page */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -42,48 +110,7 @@
             background-color: #1b1dcc;
             color: white;
             padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        header img {
-            height: 160px;
-            margin-right: 20px;
-        }
-
-        header h1 {
-            font-family: 'Aerospace', sans-serif;
-            font-size: 48px;
             text-align: center;
-            flex-grow: 1;
-            margin: 0;
-        }
-
-        nav {
-            background-color: #e0e0e0;
-            padding: 10px;
-            text-align: center;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #333;
-            padding: 10px 20px;
-            margin: 0 10px;
-            font-size: 18px;
-            transition: background-color 0.3s ease;
-        }
-
-        nav a:hover {
-            background-color: #b0b0b0;
-            color: white;
-        }
-
-        nav a.active {
-            background-color: #1b1dcc;
-            color: white;
-            border-radius: 0;
         }
 
         .container {
@@ -96,118 +123,66 @@
             flex-grow: 1;
         }
 
-        .container h2 {
+        h1, h3 {
             font-size: 32px;
             color: #333;
-            text-align: left;
-            margin-bottom: 20px;
         }
 
-        footer {
-            background-color: #1b1dcc;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-            width: 100%;
-        }
-
-        footer small {
-            font-size: 12px;
-        }
-
-        .add-team-form {
-            margin-top: 40px;
-            padding: 20px;
-            background-color: #f4f4f4;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .add-team-form input {
-            padding: 10px;
-            margin-right: 10px;
-            margin-bottom: 10px;
+        input {
+            padding: 8px;
+            margin: 10px;
             font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
             width: 200px;
         }
 
-        .add-team-form button {
-            padding: 10px 20px;
+        button {
+            padding: 8px 12px;
             background-color: #1b1dcc;
             color: white;
             border: none;
-            border-radius: 4px;
             cursor: pointer;
+            font-size: 16px;
         }
 
-        .add-team-form button:hover {
-            background-color: #2c3e9e;
+        button:hover {
+            background-color: #154bb5;
         }
 
         table {
             width: 100%;
-            border-collapse: collapse;
             margin-top: 20px;
+            border-collapse: collapse;
         }
 
-        table th, table td {
-            padding: 10px;
+        th, td {
+            padding: 12px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
 
-        .actions button {
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 4px;
+        th {
+            background-color: #f4f4f4;
         }
 
-        .actions button:hover {
-            background-color: #c0392b;
+        td button {
+            margin-right: 10px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header Section -->
     <header>
-        <div class="header-content">
-            <img src="yise.png" alt="YISE Scouting Logo">
-            <h1>YISE Scouting</h1>
-        </div>
+        <h1>YISE Scouting - Team List</h1>
     </header>
 
-    <!-- Navigation Tabs -->
-    <nav>
-        <a href="index.html">About</a>
-        <a href="parent-scouting.html">Parent Scouting</a>
-        <a href="competition-scouting.html">Competition Scouting</a>
-        <a href="pit-scouting.html">Pit Scouting</a>
-        <a href="team-list.html" class="active">Team List</a>
-        <a href="tournament-schedule.html">Tournament Schedule</a>
-        <a href="drive-coach.html">Drive Coach</a>
-    </nav>
-
-    <!-- Main Content Section -->
     <div class="container">
-        <h2>Team List</h2>
-        <p>This page provides a list of all the teams participating at the event. Clicking on a team name will bring up the team's page.</p>
+        <h3>Add Team</h3>
+        <input id="team-name" placeholder="Team Name" />
+        <input id="team-number" placeholder="Team Number" />
+        <input id="team-ranking" placeholder="Team Ranking" />
+        <button onclick="addTeam()">Add Team</button>
 
-        <!-- Add Team Form -->
-        <div class="add-team-form">
-            <h3>Add Team</h3>
-            <input type="text" id="team-name" placeholder="Team Name" />
-            <input type="text" id="team-number" placeholder="Team Number" />
-            <input type="text" id="team-ranking" placeholder="Ranking" />
-            <button onclick="addTeam()">Add Team</button>
-        </div>
-
-        <!-- Team List Table -->
+        <h3>Team List</h3>
         <table id="team-list">
             <thead>
                 <tr>
@@ -218,107 +193,10 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Dynamic team rows will be inserted here -->
+                <!-- Team rows will be inserted here dynamically -->
             </tbody>
         </table>
     </div>
 
-    <!-- Footer Section -->
-    <footer>
-        <small>Brought to you by FTC YISE #11308 | All Rights Reserved | © 2024</small>
-    </footer>
-
-    <script>
-        // Reference to Firestore collection
-        const teamsRef = db.collection("teams");
-
-        // Function to add a new team to Firestore
-        async function addTeam() {
-            const teamName = document.getElementById("team-name").value;
-            const teamNumber = document.getElementById("team-number").value;
-            const teamRanking = document.getElementById("team-ranking").value;
-
-            if (!teamName || !teamNumber || !teamRanking) {
-                alert("Please fill out all fields.");
-                return;
-            }
-
-            await teamsRef.add({
-                name: teamName,
-                number: teamNumber,
-                ranking: parseInt(teamRanking)
-            });
-
-            document.getElementById("team-name").value = "";
-            document.getElementById("team-number").value = "";
-            document.getElementById("team-ranking").value = "";
-
-            loadTeams();
-        }
-
-            // Function to load teams from Firestore
-           async function loadTeams() {
-        const snapshot = await teamsRef.orderBy("ranking", "desc").get();
-        const teamList = document.getElementById("team-list").getElementsByTagName("tbody")[0];
-        teamList.innerHTML = "";  // Clear current list
-        
-        if (snapshot.empty) {
-            console.log("No teams found.");
-            return;
-        }
-        
-        snapshot.forEach(doc => {
-            const team = doc.data();
-            const row = teamList.insertRow();
-            const teamNameCell = row.insertCell(0);
-            teamNameCell.textContent = team.name;
-        
-            const teamNumberCell = row.insertCell(1);
-            teamNumberCell.textContent = "#" + team.number;
-        
-            const teamRankingCell = row.insertCell(2);
-            teamRankingCell.textContent = team.ranking;
-        
-            const actionsCell = row.insertCell(3);
-            actionsCell.classList.add("actions");
-            actionsCell.innerHTML = `
-                <button onclick="editTeam('${doc.id}')">Edit</button>
-                <button onclick="removeTeam('${doc.id}')">Remove</button>
-            `;
-        });
-        }
-
-
-        // Function to edit a team
-        async function editTeam(id) {
-            const doc = await teamsRef.doc(id).get();
-            const team = doc.data();
-
-            const newName = prompt("Edit Team Name:", team.name);
-            const newNumber = prompt("Edit Team Number:", team.number);
-            const newRanking = prompt("Edit Ranking:", team.ranking);
-
-            if (newName && newNumber && newRanking) {
-                await teamsRef.doc(id).update({
-                    name: newName,
-                    number: newNumber,
-                    ranking: parseInt(newRanking)
-                });
-
-                loadTeams();
-            }
-        }
-
-        // Function to remove a team
-        async function removeTeam(id) {
-            if (confirm("Are you sure you want to remove this team?")) {
-                await teamsRef.doc(id).delete();
-                loadTeams();
-            }
-        }
-
-        // Initial load of teams
-        loadTeams();
-    </script>
 </body>
 </html>
