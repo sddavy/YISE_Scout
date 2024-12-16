@@ -127,6 +127,55 @@
         footer small {
             font-size: 12px;
         }
+
+        /* Styles for the input section at the bottom */
+        .input-section {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .input-section input {
+            padding: 10px;
+            margin: 5px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .input-section button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #1b1dcc;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .input-section button:hover {
+            background-color: #155ab6;
+        }
+
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
     </style>
 </head>
 <body>
@@ -158,12 +207,75 @@
             It will be a way for parents, mentors, and the drive coach to see what teams are participating. 
             Clicking on the name of a team in the list will bring up that teams page.
         </p>
+
+        <!-- Input Section for adding a new team -->
+        <div class="input-section">
+            <input type="text" id="teamName" placeholder="Team Name" oninput="checkInput()">
+            <input type="number" id="teamNumber" placeholder="Team Number" oninput="checkInput()">
+            <input type="number" id="teamRanking" placeholder="Ranking" oninput="checkInput()">
+            <button id="submitButton" style="display: none;" onclick="addTeam()">Add Team</button>
+        </div>
+
+        <!-- Table for displaying the team list -->
+        <table id="teamList">
+            <thead>
+                <tr>
+                    <th>Team Name</th>
+                    <th>Team Number</th>
+                    <th>Ranking</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Team data will be added here -->
+            </tbody>
+        </table>
     </div>
 
     <!-- Footer Section -->
     <footer>
         <small>Brought to you by FTC YISE #11308 | All Rights Reserved | © 2024</small>
     </footer>
+
+    <!-- JavaScript for handling the form input and adding to the list -->
+    <script>
+        function checkInput() {
+            const teamName = document.getElementById('teamName').value;
+            const teamNumber = document.getElementById('teamNumber').value;
+            const teamRanking = document.getElementById('teamRanking').value;
+
+            // Show the submit button only if all fields are filled
+            if (teamName && teamNumber && teamRanking) {
+                document.getElementById('submitButton').style.display = 'inline-block';
+            } else {
+                document.getElementById('submitButton').style.display = 'none';
+            }
+        }
+
+        function addTeam() {
+            const teamName = document.getElementById('teamName').value;
+            const teamNumber = document.getElementById('teamNumber').value;
+            const teamRanking = document.getElementById('teamRanking').value;
+
+            const table = document.getElementById('teamList').getElementsByTagName('tbody')[0];
+            const newRow = table.insertRow();
+
+            const nameCell = newRow.insertCell(0);
+            const numberCell = newRow.insertCell(1);
+            const rankingCell = newRow.insertCell(2);
+
+            nameCell.textContent = teamName;
+            numberCell.textContent = teamNumber;
+            rankingCell.textContent = teamRanking;
+
+            // Clear input fields after adding the team
+            document.getElementById('teamName').value = '';
+            document.getElementById('teamNumber').value = '';
+            document.getElementById('teamRanking').value = '';
+
+            // Hide the submit button after adding
+            document.getElementById('submitButton').style.display = 'none';
+        }
+    </script>
 
 </body>
 </html>
