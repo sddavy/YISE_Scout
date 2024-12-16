@@ -88,9 +88,16 @@
             transition: background-color 0.3s ease;
         }
 
+        /* Hover effect - Darker grey */
         nav a:hover {
-            background-color: #1b1dcc; /* Blue hover effect */
+            background-color: #b0b0b0; /* Darker grey on hover */
             color: white;
+        }
+
+        /* Active tab color matches background color */
+        nav a.active {
+            background-color: #e0e0e0; /* Same color as the background */
+            color: #333; /* Keep text color normal */
         }
 
         /* Center content in the container */
@@ -111,7 +118,7 @@
 
     <!-- Navigation Tabs -->
     <nav>
-        <a href="about.html">About</a>
+        <a href="about.html" class="active">About</a> <!-- Active tab example -->
         <a href="parent-scouting.html">Parent Scouting</a>
         <a href="competition-scouting.html">Competition Scouting</a>
         <a href="pit-scouting.html">Pit Scouting</a>
