@@ -16,28 +16,61 @@
         header {
             background-color: #1b1dcc;
             color: white;
-            padding: 15px;
+            padding: 30px 20px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
+            flex-direction: column;
         }
+
         header h1 {
             margin: 0;
-            font-size: 24px;
-            flex-grow: 1;
+            font-size: 48px; /* Increased size for header */
             text-align: center;
         }
+
         header img {
             height: 100px;
-            margin-right: 20px;
+            margin-bottom: 15px;
         }
+
         @media (min-width: 768px) {
             header img {
                 height: 200px;
             }
             header h1 {
-                font-size: 36px;
+                font-size: 60px; /* Larger font size for larger screens */
             }
+        }
+
+        /* Tab Styles */
+        .tabs {
+            display: flex;
+            justify-content: center; /* Centers the tabs */
+            background-color: #1b1dcc;
+            margin-top: 10px;
+        }
+
+        .tab {
+            padding: 20px 40px;
+            cursor: pointer;
+            background-color: #fff;
+            color: #1b1dcc;
+            border: 1px solid #1b1dcc;
+            margin: 0 5px;
+            font-size: 20px;
+            transition: background-color 0.3s, color 0.3s;
+            text-decoration: none;
+        }
+
+        .tab:hover {
+            background-color: #1b1dcc;
+            color: white;
+        }
+
+        .tab.active {
+            background-color: #1b1dcc;
+            color: white;
         }
 
         /* Container Styles */
@@ -48,38 +81,6 @@
             background-color: white;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-        }
-
-        /* Tab Styles */
-        .tabs {
-            display: flex;
-            border-bottom: 2px solid #1b1dcc;
-            margin-bottom: 20px;
-        }
-        .tab {
-            padding: 10px 20px;
-            cursor: pointer;
-            background-color: #fff;
-            color: #1b1dcc;
-            border: 1px solid #1b1dcc;
-            margin-right: 5px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .tab:hover {
-            background-color: #1b1dcc;
-            color: white;
-        }
-        .tab.active {
-            background-color: #1b1dcc;
-            color: white;
-        }
-
-        /* Content Styles */
-        .content {
-            display: none;
-        }
-        .content.active {
-            display: block;
         }
 
         /* Button styles for links (like in previous version) */
@@ -98,6 +99,7 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
+
         .button:hover {
             background-color: #0a0c80;
         }
@@ -107,83 +109,25 @@
 
     <!-- Header Section -->
     <header>
-        <img src="yise.png" alt="YISE Scouting Logo">
-        <h1>YISE Scouting</h1>
+        <img src="yise.png" alt="YISE Scouting Logo"> <!-- Logo on the left -->
+        <h1>YISE Scouting</h1> <!-- Text centered -->
     </header>
+
+    <!-- Tab Navigation -->
+    <div class="tabs">
+        <a href="about.html" class="tab">About</a>
+        <a href="parent_scouting.html" class="tab">Parent Scouting</a>
+        <a href="competition_scouting.html" class="tab">Competition Scouting</a>
+        <a href="pit_scouting.html" class="tab">Pit Scouting</a>
+        <a href="team_list.html" class="tab">Team List</a>
+        <a href="schedule.html" class="tab">Tournament Schedule</a>
+        <a href="coach_information.html" class="tab">Coach Information</a>
+    </div>
 
     <!-- Main Content Section -->
     <div class="container">
-        <!-- Tab Navigation -->
-        <div class="tabs">
-            <div class="tab active" onclick="showContent('about')">About</div>
-            <div class="tab" onclick="showContent('parent')">Parent Scouting</div>
-            <div class="tab" onclick="showContent('competition')">Competition Scouting</div>
-            <div class="tab" onclick="showContent('pit')">Pit Scouting</div>
-            <div class="tab" onclick="showContent('team')">Team List</div>
-            <div class="tab" onclick="showContent('schedule')">Tournament Schedule</div>
-            <div class="tab" onclick="showContent('coach')">Coach Information</div>
-        </div>
-
-        <!-- Tab Content -->
-        <div id="about" class="content active">
-            <h2>About</h2>
-            <p>This page provides information about YISE Scouting and its mission to assist teams in scouting competitions and events. Our goal is to gather and share valuable data to help teams improve their strategies and overall performance.</p>
-        </div>
-
-        <div id="parent" class="content">
-            <h2>Parent Scouting</h2>
-            <p>Information for parents on how to get involved with scouting activities and how they can support their team during competitions.</p>
-        </div>
-
-        <div id="competition" class="content">
-            <h2>Competition Scouting</h2>
-            <p>Details and strategies on how to scout teams during competitions to gain insights into their performance and behavior.</p>
-        </div>
-
-        <div id="pit" class="content">
-            <h2>Pit Scouting</h2>
-            <p>Information on how to scout teams in the pit area, including key factors such as robot design, team strategies, and other relevant observations.</p>
-        </div>
-
-        <div id="team" class="content">
-            <h2>Team List</h2>
-            <p>A comprehensive list of all participating teams, their statistics, and key information.</p>
-        </div>
-
-        <div id="schedule" class="content">
-            <h2>Tournament Schedule</h2>
-            <p>View the schedule of upcoming tournaments and matches, including times and locations.</p>
-        </div>
-
-        <div id="coach" class="content">
-            <h2>Coach Information</h2>
-            <p>Details about the coaches, their experience, and their involvement with the teams and tournaments.</p>
-        </div>
+        <p>Welcome to YISE Scouting! Click the tabs above to navigate to different sections of the site.</p>
     </div>
-
-    <script>
-        // Function to switch between tabs and show the content
-        function showContent(tabName) {
-            // Hide all content sections
-            var contents = document.querySelectorAll('.content');
-            contents.forEach(function(content) {
-                content.classList.remove('active');
-            });
-
-            // Remove 'active' class from all tabs
-            var tabs = document.querySelectorAll('.tab');
-            tabs.forEach(function(tab) {
-                tab.classList.remove('active');
-            });
-
-            // Show the selected content
-            document.getElementById(tabName).classList.add('active');
-
-            // Add 'active' class to the clicked tab
-            var activeTab = document.querySelector(`.tab[onclick="showContent('${tabName}')"]`);
-            activeTab.classList.add('active');
-        }
-    </script>
 
 </body>
 </html>
