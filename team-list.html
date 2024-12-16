@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team List - YISE Scouting</title>
+
+    <!-- Custom font-face rule for the Aerospace font -->
+    <style>
+        /* Custom font-face rule for the Aerospace font */
+        @font-face {
+            font-family: 'Aerospace';
+            src: url('aerospace.woff') format('woff'), /* Adjust the path to your font file */
+                 url('aerospace.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* Basic styles for the body */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            display: flex;
+            flex-direction: column;
+            height: 100vh; /* Ensure the body takes full height of the viewport */
+        }
+
+        /* Header styles */
+        header {
+            background-color: #1b1dcc; /* Blue background for header */
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: center; /* Center the content of the header */
+            align-items: center;
+        }
+
+        /* Container for the logo and text */
+        .header-content {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* Apply Aerospace font to only the main header text (h1) */
+        header h1 {
+            font-family: 'Aerospace', sans-serif; /* Apply the Aerospace font */
+            font-size: 48px;
+            text-align: center;
+            flex-grow: 1;
+            margin: 0;
+        }
+
+        /* Logo styling (increased size) */
+        header img {
+            height: 160px; /* Increased logo size */
+            margin-right: 20px;
+        }
+
+        /* Navigation bar / tabs styles */
+        nav {
+            background-color: #e0e0e0; /* Grey background for tabs */
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Hover effect - Darker grey */
+        nav a:hover {
+            background-color: #b0b0b0; /* Darker grey on hover */
+            color: white;
+        }
+
+        /* Active tab style - No rounded corners, blue background */
+        nav a.active {
+            background-color: #1b1dcc; /* Blue background for active tab */
+            color: white;
+            border-radius: 0; /* Remove rounded corners */
+        }
+
+        /* Main content section */
+        .container {
+            max-width: 1200px;  /* Set width to 1200px */
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            flex-grow: 1; /* This will push the footer to the bottom */
+        }
+
+        /* Text styles for content */
+        .container h2 {
+            font-size: 32px;
+            color: #333;
+            text-align: left;
+            margin-bottom: 20px; /* Optional spacing between header and content */
+        }
+
+        .container p {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Footer styles */
+        footer {
+            background-color: #1b1dcc; /* Blue background */
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            width: 100%;
+        }
+
+        footer small {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <div class="header-content">
+            <img src="yise.png" alt="YISE Scouting Logo"> <!-- Logo on the left -->
+            <h1>YISE Scouting</h1> <!-- Centered text -->
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav>
+        <a href="index.html">About</a>
+        <a href="parent-scouting.html">Parent Scouting</a>
+        <a href="competition-scouting.html">Competition Scouting</a>
+        <a href="pit-scouting.html">Pit Scouting</a>
+        <a href="team-list.html" class="active">Team List</a> <!-- Make this tab active -->
+        <a href="tournament-schedule.html">Tournament Schedule</a>
+        <a href="drive-coach.html">Drive Coach</a>
+    </nav>
+
+    <!-- Main Content Section -->
+    <div class="container">
+        <h2>Team List</h2> <!-- Heading for the page -->
+        <p>
+            This page provides a list of all the teams participating in the YISE Scouting event. 
+            You can view detailed information about each team, including their performance data, strategies, and scouting information.
+        </p>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <small>Brought to you by FTC YISE #11308 | All Rights Reserved | © 2024</small>
+    </footer>
+
+</body>
+</html>
