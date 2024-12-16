@@ -63,7 +63,6 @@
             padding: 10px 20px;
             margin: 0 10px;
             font-size: 18px;
-            border-radius: 5px;
             transition: background-color 0.3s ease;
         }
 
@@ -73,15 +72,16 @@
             color: white;
         }
 
-        /* Active tab color */
+        /* Active tab style - No rounded corners, blue background */
         nav a.active {
-            background-color: #e0e0e0; /* Same as background */
-            color: #333;
+            background-color: #1b1dcc; /* Blue background for active tab */
+            color: white;
+            border-radius: 0; /* Remove rounded corners */
         }
 
         /* Main content section */
         .container {
-            max-width: 900px;
+            max-width: 1200px;  /* Set width to 1200px */
             margin: 20px auto;
             padding: 20px;
             background-color: white;
@@ -94,6 +94,8 @@
         .container h2 {
             font-size: 32px;
             color: #333;
+            text-align: left;
+            margin-bottom: 20px; /* Optional spacing between header and content */
         }
 
         .container p {
@@ -129,8 +131,8 @@
     <!-- Navigation Tabs -->
     <nav>
         <a href="about.html">About</a>
-        <a href="parent-scouting.html" class="active">Parent Scouting</a>
-        <a href="competition-scouting.html">Competition Scouting</a>
+        <a href="parent-scouting.html">Parent Scouting</a>
+        <a href="competition-scouting.html" class="active">Competition Scouting</a>
         <a href="pit-scouting.html">Pit Scouting</a>
         <a href="team-list.html">Team List</a>
         <a href="tournament-schedule.html">Tournament Schedule</a>
