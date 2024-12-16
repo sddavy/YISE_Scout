@@ -6,8 +6,7 @@
     <title>Team List - YISE Scouting</title>
 
     <link rel="icon" href="yise.png" type="image/png">
-    
-    <!-- Custom font-face rule for the Aerospace font -->
+
     <style>
         /* Custom font-face rule for the Aerospace font */
         @font-face {
@@ -18,7 +17,6 @@
             font-style: normal;
         }
 
-        /* Basic styles for the body */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -26,44 +24,39 @@
             background-color: #f4f4f9;
             display: flex;
             flex-direction: column;
-            height: 100vh; /* Ensure the body takes full height of the viewport */
+            height: 100vh;
         }
 
-        /* Header styles */
         header {
-            background-color: #1b1dcc; /* Blue background for header */
+            background-color: #1b1dcc;
             color: white;
             padding: 20px;
             display: flex;
-            justify-content: center; /* Center the content of the header */
+            justify-content: center;
             align-items: center;
         }
 
-        /* Container for the logo and text */
         .header-content {
             display: flex;
             align-items: center;
             width: 100%;
         }
 
-        /* Apply Aerospace font to only the main header text (h1) */
         header h1 {
-            font-family: 'Aerospace', sans-serif; /* Apply the Aerospace font */
+            font-family: 'Aerospace', sans-serif;
             font-size: 48px;
             text-align: center;
             flex-grow: 1;
             margin: 0;
         }
 
-        /* Logo styling (increased size) */
         header img {
-            height: 160px; /* Increased logo size */
+            height: 160px;
             margin-right: 20px;
         }
 
-        /* Navigation bar / tabs styles */
         nav {
-            background-color: #e0e0e0; /* Grey background for tabs */
+            background-color: #e0e0e0;
             padding: 10px;
             text-align: center;
         }
@@ -77,36 +70,32 @@
             transition: background-color 0.3s ease;
         }
 
-        /* Hover effect - Darker grey */
         nav a:hover {
-            background-color: #b0b0b0; /* Darker grey on hover */
+            background-color: #b0b0b0;
             color: white;
         }
 
-        /* Active tab style - No rounded corners, blue background */
         nav a.active {
-            background-color: #1b1dcc; /* Blue background for active tab */
+            background-color: #1b1dcc;
             color: white;
-            border-radius: 0; /* Remove rounded corners */
+            border-radius: 0;
         }
 
-        /* Main content section */
         .container {
-            max-width: 1200px;  /* Set width to 1200px */
+            max-width: 1200px;
             margin: 20px auto;
             padding: 20px;
             background-color: white;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            flex-grow: 1; /* This will push the footer to the bottom */
+            flex-grow: 1;
         }
 
-        /* Text styles for content */
         .container h2 {
             font-size: 32px;
             color: #333;
             text-align: left;
-            margin-bottom: 20px; /* Optional spacing between header and content */
+            margin-bottom: 20px;
         }
 
         .container p {
@@ -115,9 +104,8 @@
             line-height: 1.6;
         }
 
-        /* Footer styles */
         footer {
-            background-color: #1b1dcc; /* Blue background */
+            background-color: #1b1dcc;
             color: white;
             text-align: center;
             padding: 10px 0;
@@ -128,11 +116,10 @@
             font-size: 12px;
         }
 
-        /* Styles for the input section at the bottom */
         .input-section {
             margin-top: 30px;
             text-align: center;
-            margin-bottom: 50px; /* Adds space between input section and footer */
+            margin-bottom: 50px;
         }
 
         .input-section input {
@@ -158,7 +145,6 @@
             background-color: #155ab6;
         }
 
-        /* Table styling */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -204,35 +190,29 @@
 </head>
 <body>
 
-    <!-- Header Section -->
     <header>
         <div class="header-content">
-            <img src="yise.png" alt="YISE Scouting Logo"> <!-- Logo on the left -->
-            <h1>YISE Scouting</h1> <!-- Centered text -->
+            <img src="yise.png" alt="YISE Scouting Logo">
+            <h1>YISE Scouting</h1>
         </div>
     </header>
 
-    <!-- Navigation Tabs -->
     <nav>
         <a href="index.html">About</a>
         <a href="parent-scouting.html">Parent Scouting</a>
         <a href="competition-scouting.html">Competition Scouting</a>
         <a href="pit-scouting.html">Pit Scouting</a>
-        <a href="team-list.html" class="active">Team List</a> <!-- Make this tab active -->
+        <a href="team-list.html" class="active">Team List</a>
         <a href="tournament-schedule.html">Tournament Schedule</a>
         <a href="drive-coach.html">Drive Coach</a>
     </nav>
 
-    <!-- Main Content Section -->
     <div class="container">
-        <h2>Team List</h2> <!-- Heading for the page -->
+        <h2>Team List</h2>
         <p>
-            This page provides a list of all the teams participating at the event.  
-            It will be a way for parents, mentors, and the drive coach to see what teams are participating. 
-            Clicking on the name of a team in the list will bring up that team's page.
+            This page provides a list of all the teams participating at the event.
         </p>
 
-        <!-- Table for displaying the team list -->
         <table id="teamList">
             <thead>
                 <tr>
@@ -248,7 +228,6 @@
         </table>
     </div>
 
-    <!-- Add Team Section -->
     <div class="input-section">
         <h3>Add Team</h3>
         <input type="text" id="teamName" placeholder="Team Name" oninput="checkInput()">
@@ -257,21 +236,19 @@
         <button id="submitButton" style="display: none;" onclick="addTeam()">Add Team</button>
     </div>
 
-    <!-- Footer Section -->
     <footer>
         <small>Brought to you by FTC YISE #11308 | All Rights Reserved | © 2024</small>
     </footer>
 
-    <!-- JavaScript for handling the form input and adding to the list -->
     <script>
         let editingIndex = -1;
 
+        // Check if all input fields are filled
         function checkInput() {
             const teamName = document.getElementById('teamName').value;
             const teamNumber = document.getElementById('teamNumber').value;
             const teamRanking = document.getElementById('teamRanking').value;
 
-            // Show the submit button only if all fields are filled
             if (teamName && teamNumber && teamRanking) {
                 document.getElementById('submitButton').style.display = 'inline-block';
             } else {
@@ -279,6 +256,7 @@
             }
         }
 
+        // Add or update a team
         function addTeam() {
             const teamName = document.getElementById('teamName').value;
             const teamNumber = document.getElementById('teamNumber').value;
@@ -286,18 +264,18 @@
 
             const table = document.getElementById('teamList').getElementsByTagName('tbody')[0];
 
-            // If editing an existing team
             if (editingIndex > -1) {
+                // Edit the existing team
                 const row = table.rows[editingIndex];
                 row.cells[0].textContent = teamName;
-                row.cells[1].textContent = teamNumber;
+                row.cells[1].textContent = "#" + teamNumber;  // Add "#" before team number
                 row.cells[2].textContent = teamRanking;
                 row.cells[3].innerHTML = `<button class="edit-btn" onclick="editTeam(${editingIndex})">Edit</button>
                                            <button class="remove-btn" onclick="removeTeam(${editingIndex})">Remove</button>`;
 
-                editingIndex = -1; // Reset after edit
+                editingIndex = -1;
             } else {
-                // Add new team row
+                // Add a new team
                 const newRow = table.insertRow();
                 const nameCell = newRow.insertCell(0);
                 const numberCell = newRow.insertCell(1);
@@ -305,60 +283,104 @@
                 const actionsCell = newRow.insertCell(3);
 
                 nameCell.textContent = teamName;
-                numberCell.textContent = teamNumber;
+                numberCell.textContent = "#" + teamNumber;
                 rankingCell.textContent = teamRanking;
                 actionsCell.innerHTML = `<button class="edit-btn" onclick="editTeam(${table.rows.length - 1})">Edit</button>
                                          <button class="remove-btn" onclick="removeTeam(${table.rows.length - 1})">Remove</button>`;
             }
 
-            // Clear input fields after adding or editing the team
+            // Save to localStorage
+            saveTeamsToLocalStorage();
+
+            // Clear input fields
             document.getElementById('teamName').value = '';
             document.getElementById('teamNumber').value = '';
             document.getElementById('teamRanking').value = '';
-
-            // Hide the submit button after adding
             document.getElementById('submitButton').style.display = 'none';
         }
 
+        // Edit a team
         function editTeam(index) {
             const row = document.getElementById('teamList').getElementsByTagName('tbody')[0].rows[index];
 
-            // Populate the input fields with the current values
             document.getElementById('teamName').value = row.cells[0].textContent;
-            document.getElementById('teamNumber').value = row.cells[1].textContent;
+            document.getElementById('teamNumber').value = row.cells[1].textContent.replace('#', '');
             document.getElementById('teamRanking').value = row.cells[2].textContent;
 
-            editingIndex = index; // Set the index of the team being edited
-
-            // Change the submit button to reflect "Edit"
-            document.getElementById('submitButton').textContent = 'Save Changes';
+            editingIndex = index;
+            document.getElementById('submitButton').style.display = 'inline-block';
         }
 
+        // Remove a team
         function removeTeam(index) {
-            const table = document.getElementById('teamList').getElementsByTagName('tbody')[0];
-            table.deleteRow(index);
+            document.getElementById('teamList').getElementsByTagName('tbody')[0].deleteRow(index);
+            saveTeamsToLocalStorage();
         }
 
-        function sortTable(colIndex) {
-            const table = document.getElementById('teamList').getElementsByTagName('tbody')[0];
-            const rows = Array.from(table.rows);
-            const isAscending = table.rows[0].cells[colIndex].classList.toggle('asc');
-
+        // Sort the table
+        function sortTable(n) {
+            const table = document.getElementById("teamList");
+            const rows = Array.from(table.rows).slice(1); // Skip the header row
+            const isAscending = table.rows[0].cells[n].getAttribute('data-asc') === 'true';
+            
             rows.sort((a, b) => {
-                const aText = a.cells[colIndex].textContent.trim();
-                const bText = b.cells[colIndex].textContent.trim();
-
-                if (isNaN(aText) || isNaN(bText)) {
-                    return isAscending ? aText.localeCompare(bText) : bText.localeCompare(aText);
+                const aText = a.cells[n].textContent;
+                const bText = b.cells[n].textContent;
+                
+                if (n === 1) {
+                    // Sort by number (use numeric comparison for team number)
+                    return isAscending ? parseInt(aText.slice(1)) - parseInt(bText.slice(1)) : parseInt(bText.slice(1)) - parseInt(aText.slice(1));
+                } else if (n === 2) {
+                    // Sort by ranking (numeric comparison)
+                    return isAscending ? parseInt(aText) - parseInt(bText) : parseInt(bText) - parseInt(aText);
                 } else {
-                    return isAscending ? aText - bText : bText - aText;
+                    return isAscending ? aText.localeCompare(bText) : bText.localeCompare(aText);
                 }
             });
 
             // Reorder the rows in the table
             rows.forEach(row => table.appendChild(row));
-        }
-    </script>
 
+            // Toggle sorting order
+            table.rows[0].cells[n].setAttribute('data-asc', isAscending ? 'false' : 'true');
+        }
+
+        // Save teams to localStorage
+        function saveTeamsToLocalStorage() {
+            const table = document.getElementById('teamList').getElementsByTagName('tbody')[0];
+            const teams = Array.from(table.rows).map(row => {
+                return {
+                    name: row.cells[0].textContent,
+                    number: row.cells[1].textContent,
+                    ranking: row.cells[2].textContent
+                };
+            });
+
+            localStorage.setItem('teams', JSON.stringify(teams));
+        }
+
+        // Load teams from localStorage
+        function loadTeamsFromLocalStorage() {
+            const teams = JSON.parse(localStorage.getItem('teams')) || [];
+            const table = document.getElementById('teamList').getElementsByTagName('tbody')[0];
+
+            teams.forEach(team => {
+                const newRow = table.insertRow();
+                const nameCell = newRow.insertCell(0);
+                const numberCell = newRow.insertCell(1);
+                const rankingCell = newRow.insertCell(2);
+                const actionsCell = newRow.insertCell(3);
+
+                nameCell.textContent = team.name;
+                numberCell.textContent = team.number;
+                rankingCell.textContent = team.ranking;
+                actionsCell.innerHTML = `<button class="edit-btn" onclick="editTeam(${table.rows.length - 1})">Edit</button>
+                                         <button class="remove-btn" onclick="removeTeam(${table.rows.length - 1})">Remove</button>`;
+            });
+        }
+
+        // Load teams on page load
+        window.onload = loadTeamsFromLocalStorage;
+    </script>
 </body>
 </html>
