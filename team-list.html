@@ -9,16 +9,7 @@
     <link rel="icon" href="yise.png" type="image/png">
 
     <style>
-        /* Custom font-face rule for the Aerospace font */
-        @font-face {
-            font-family: 'Aerospace';
-            src: url('aerospace.woff') format('woff'),
-                 url('aerospace.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        /* Reset & basic body styling */
+        /* General Reset & Basic Body Styling */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -29,7 +20,7 @@
             height: 100vh;
         }
 
-        /* Header */
+        /* Header Section */
         header {
             background-color: #1b1dcc;
             color: white;
@@ -46,7 +37,6 @@
         }
 
         header h1 {
-            font-family: 'Aerospace', sans-serif;
             font-size: 48px;
             text-align: center;
             flex-grow: 1;
@@ -58,62 +48,11 @@
             margin-right: 20px;
         }
 
-        /* Navigation Bar */
-        nav {
-            background-color: #e0e0e0;
-            padding: 10px;
-            text-align: center;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #333;
-            padding: 10px 20px;
-            margin: 0 10px;
-            font-size: 18px;
-        }
-
-        nav a:hover {
-            background-color: #b0b0b0;
-            color: white;
-        }
-
-        /* Input Section */
-        .inputs-container {
-            margin: 20px 0;
-        }
-
-        .inputs-container input {
-            padding: 8px;
-            margin: 5px;
-            font-size: 16px;
-        }
-
-        .inputs-container button {
-            padding: 8px 12px;
-            background-color: #1b1dcc;
-            color: white;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        /* Main Content Section */
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            flex-grow: 1;
-        }
-
-        /* Table Styles */
+        /* Table & Buttons */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 10px 0;
+            margin: 20px 0;
         }
 
         table th,
@@ -127,20 +66,29 @@
             cursor: pointer;
             font-size: 20px;
             color: #333;
-            margin-right: 8px;
+            margin: 5px;
         }
 
-        table tr:hover {
-            background-color: #e0e0e0;
+        .edit-btn {
+            background-color: blue;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
-        /* Footer Styles */
+        .edit-btn:hover {
+            background-color: darkblue;
+        }
+
+        /* Input & Footer Styling */
         footer {
             background-color: #1b1dcc;
             color: white;
             text-align: center;
             padding: 10px 0;
-            width: 100%;
             font-size: 14px;
         }
     </style>
@@ -154,15 +102,14 @@
         </div>
     </header>
 
-    <!-- Navigation Tabs -->
     <nav>
-        <a href="index.html">About</a>
+        <a href="index.html" class="active">About</a>
         <a href="parent-scouting.html">Parent Scouting</a>
         <a href="competition-scouting.html">Competition Scouting</a>
         <a href="pit-scouting.html">Pit Scouting</a>
-        <a href="team-list.html" class="active">Team List</a>
+        <a href="team-list.html">Team List</a>
         <a href="tournament-schedule.html">Tournament Schedule</a>
-        <a href="drive-coach.html">Drive Coach</a>
+        <a href="drive-coach.html">Drice Coach</a>
     </nav>
 
     <!-- Main Content Section -->
@@ -185,8 +132,7 @@
                     <th>Team Number</th>
                 </tr>
             </thead>
-            <tbody id="team-list">
-            </tbody>
+            <tbody id="team-list"></tbody>
         </table>
     </div>
 
@@ -198,6 +144,22 @@
     <script>
         const teamListContainer = document.getElementById('team-list');
 
+        // Load from local storage
+        function loadTeams() {
+            const savedTeams = JSON.parse(localStorage.getItem('teams')) || [];
+            savedTeams.forEach(team => displayTeam(team));
+        }
+
+        // Save to local storage
+        function saveTeams() {
+            const teams = Array.from(teamListContainer.children).map(tr => ({
+                ranking: tr.children[1].innerText,
+                name: tr.children[2].innerText,
+                number: tr.children[3].innerText,
+            }));
+            localStorage.setItem('teams', JSON.stringify(teams));
+        }
+
         const addTeam = () => {
             const name = document.getElementById('team-name').value;
             const number = document.getElementById('team-number').value;
@@ -205,37 +167,65 @@
 
             if (!name || !number || !ranking) return alert("Please fill in all fields");
 
+            const team = { ranking, name, number };
+            displayTeam(team);
+            saveTeams();
+            clearInputs();
+        };
+
+        const clearInputs = () => {
+            document.getElementById('team-name').value = '';
+            document.getElementById('team-number').value = '';
+            document.getElementById('team-ranking').value = '';
+        };
+
+        const displayTeam = (team) => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>
                     <span class="arrow-btn" onclick="moveTeamUp(this)">↑</span>
                     <span class="arrow-btn" onclick="moveTeamDown(this)">↓</span>
-                    <button onclick="editTeam(this)">Edit</button>
+                    <button class="edit-btn" onclick="editTeam(this)">Edit</button>
                 </td>
-                <td>${ranking}</td>
-                <td>${name}</td>
-                <td>${number}</td>
+                <td>${team.ranking}</td>
+                <td>${team.name}</td>
+                <td>${team.number}</td>
             `;
             teamListContainer.appendChild(tr);
         };
 
         const editTeam = (btn) => {
             const tr = btn.closest('tr');
-            const newName = prompt("Enter new team name:", tr.children[2].innerText);
+            const newRanking = prompt("Edit Ranking:", tr.children[1].innerText);
+            const newName = prompt("Edit Name:", tr.children[2].innerText);
+            const newNumber = prompt("Edit Number:", tr.children[3].innerText);
+
+            if (newRanking) tr.children[1].innerText = newRanking;
             if (newName) tr.children[2].innerText = newName;
+            if (newNumber) tr.children[3].innerText = newNumber;
+
+            saveTeams();
         };
 
         const moveTeamUp = (btn) => {
             const tr = btn.closest('tr');
             const prev = tr.previousElementSibling;
             if (prev) tr.parentElement.insertBefore(tr, prev);
+            saveTeams();
         };
 
         const moveTeamDown = (btn) => {
             const tr = btn.closest('tr');
             const next = tr.nextElementSibling;
             if (next) tr.parentElement.insertBefore(next, tr);
+            saveTeams();
         };
+
+        // Initial load from local storage
+        loadTeams();
+
+        // Save on any changes
+        window.onbeforeunload = saveTeams;
     </script>
 </body>
 </html>
