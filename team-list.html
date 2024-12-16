@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YISE Scouting</title>
 
+    <!-- Add the favicon link -->
     <link rel="icon" href="yise.png" type="image/png">
 
-    <!-- Add custom styles -->
+    <!-- Custom Styles -->
     <style>
         /* General Reset & Base Styles */
         * {
@@ -18,12 +20,15 @@
 
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
             background-color: #f4f4f9;
             display: flex;
             flex-direction: column;
             height: 100vh;
         }
 
+        /* Header Section */
         header {
             background-color: #1b1dcc;
             color: white;
@@ -33,6 +38,7 @@
             font-weight: bold;
         }
 
+        /* Navigation Bar */
         nav {
             background-color: #e0e0e0;
             padding: 10px;
@@ -42,10 +48,10 @@
         nav a {
             text-decoration: none;
             color: #333;
+            padding: 10px 20px;
             margin: 0 10px;
-            padding: 8px 15px;
-            border-radius: 4px;
-            transition: 0.3s;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
         }
 
         nav a:hover {
@@ -53,6 +59,13 @@
             color: white;
         }
 
+        nav a.active {
+            background-color: #1b1dcc;
+            color: white;
+            border-radius: 0;
+        }
+
+        /* Main Content Area */
         .container {
             max-width: 1200px;
             margin: 20px auto;
@@ -60,15 +73,10 @@
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            flex-grow: 1;
         }
 
-        h2 {
-            margin-bottom: 10px;
-            font-size: 28px;
-            color: #333;
-        }
-
-        /* Table styles */
+        /* Table Styles */
         table {
             width: 100%;
             margin-top: 10px;
@@ -95,10 +103,10 @@
             background-color: #d6e4ff;
         }
 
-        /* Button Styles */
+        /* Buttons */
         button {
             cursor: pointer;
-            padding: 5px 10px;
+            padding: 6px 12px;
             border: none;
             border-radius: 4px;
             background-color: #1b1dcc;
@@ -109,144 +117,128 @@
         button:hover {
             background-color: #004080;
         }
-
-        input {
-            margin: 5px;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        div.inputs-container input {
-            max-width: 200px;
-        }
-
-        div.inputs-container button {
-            max-width: 100px;
-        }
     </style>
 </head>
+
 <body>
+    <!-- Header Section -->
+    <header>
+        YISE Scouting
+    </header>
 
-<!-- Header Section -->
-<header>
-    YISE Scouting
-</header>
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="index.html">About</a>
+        <a href="parent-scouting.html">Parent Scouting</a>
+        <a href="competition-scouting.html">Competition Scouting</a>
+        <a href="pit-scouting.html">Pit Scouting</a>
+        <a href="team-list.html" class="active">Team List</a>
+        <a href="tournament-schedule.html">Tournament Schedule</a>
+        <a href="drive-coach.html">Drice Coach</a>
+    </nav>
 
-<!-- Navigation -->
-<nav>
-    <a href="index.html">About</a>
-    <a href="parent-scouting.html">Parent Scouting</a>
-    <a href="competition-scouting.html">Competition Scouting</a>
-    <a href="pit-scouting.html">Pit Scouting</a>
-    <a href="team-list.html" class="active">Team List</a>
-    <a href="tournament-schedule.html">Tournament Schedule</a>
-    <a href="drive-coach.html">Drice Coach</a>
-</nav>
+    <!-- Main Content Section -->
+    <div class="container">
+        <h2>Team List</h2>
+        <div class="inputs-container">
+            <input id="team-name" placeholder="Team Name">
+            <input id="team-number" placeholder="Team Number">
+            <input id="team-ranking" placeholder="Team Ranking">
+            <button onclick="addTeam()">Add Team</button>
+        </div>
 
-<!-- Main Container Section -->
-<div class="container">
-    <h2>Team List</h2>
-    <div class="inputs-container">
-        <input id="team-name" placeholder="Team Name">
-        <input id="team-number" placeholder="Team Number">
-        <input id="team-ranking" placeholder="Team Ranking">
-        <button onclick="addTeam()">Add Team</button>
+        <!-- Team List Table -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Ranking</th>
+                    <th>Team Name</th>
+                    <th>Team Number</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="team-list"></tbody>
+        </table>
     </div>
 
-    <!-- Team List Table -->
-    <table>
-        <thead>
-            <tr>
-                <th>Ranking</th>
-                <th>Team Name</th>
-                <th>Team Number</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="team-list"></tbody>
-    </table>
-</div>
+    <!-- Footer Section -->
+    <footer style="text-align: center; background-color: #1b1dcc; color: white; padding: 10px 0;">
+        <small>Brought to you by FTC YISE #11308 | All Rights Reserved | © 2024</small>
+    </footer>
 
-<script>
-    let editingIndex = -1;
+    <!-- Scripts Section -->
+    <script>
+        let editingIndex = -1;
 
-    function saveToCookies(teams) {
-        document.cookie = `teams=${encodeURIComponent(JSON.stringify(teams))}; path=/; max-age=31536000`;
-    }
-
-    function loadFromCookies() {
-        const cookies = document.cookie.split('; ');
-        const teamCookie = cookies.find(cookie => cookie.startsWith('teams='));
-        if (teamCookie) return JSON.parse(decodeURIComponent(teamCookie.split('=')[1]));
-        return [];
-    }
-
-    function renderTeams() {
-        const teamListEl = document.getElementById('team-list');
-        teamListEl.innerHTML = '';
-        const teams = loadFromCookies();
-
-        teams.forEach((team, index) => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${team.ranking}</td>
-                <td>${team.name}</td>
-                <td>#${team.number}</td>
-                <td>
-                    <button onclick="editTeam(${index})">Edit</button>
-                    <button onclick="removeTeam(${index})">Remove</button>
-                </td>
-            `;
-            teamListEl.appendChild(row);
-        });
-    }
-
-    function addTeam() {
-        const name = document.getElementById('team-name').value;
-        const number = parseInt(document.getElementById('team-number').value);
-        const ranking = parseInt(document.getElementById('team-ranking').value);
-
-        if (!name || !number || !ranking) {
-            alert('Please fill out all fields');
-            return;
+        function saveToCookies(teams) {
+            document.cookie = `teams=${encodeURIComponent(JSON.stringify(teams))}; path=/; max-age=31536000`;
         }
 
-        const teams = loadFromCookies();
-        if (editingIndex > -1) { // Handle editing
-            teams[editingIndex] = { name, number, ranking };
-            editingIndex = -1; 
-        } else {
-            teams.push({ name, number, ranking });
+        function loadFromCookies() {
+            const cookies = document.cookie.split('; ');
+            const teamCookie = cookies.find(cookie => cookie.startsWith('teams='));
+            return teamCookie ? JSON.parse(decodeURIComponent(teamCookie.split('=')[1])) : [];
         }
 
-        saveToCookies(teams);
-        renderTeams();
+        function renderTeams() {
+            const teamListEl = document.getElementById('team-list');
+            teamListEl.innerHTML = '';
+            const teams = loadFromCookies();
 
-        // Clear fields
-        document.getElementById('team-name').value = '';
-        document.getElementById('team-number').value = '';
-        document.getElementById('team-ranking').value = '';
-    }
+            teams.forEach((team, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${team.ranking}</td>
+                    <td>${team.name}</td>
+                    <td>#${team.number}</td>
+                    <td>
+                        <button onclick="editTeam(${index})">Edit</button>
+                        <button onclick="removeTeam(${index})">Remove</button>
+                    </td>
+                `;
+                teamListEl.appendChild(row);
+            });
+        }
 
-    function removeTeam(index) {
-        const teams = loadFromCookies();
-        teams.splice(index, 1);
-        saveToCookies(teams);
-        renderTeams();
-    }
+        function addTeam() {
+            const name = document.getElementById('team-name').value;
+            const number = parseInt(document.getElementById('team-number').value);
+            const ranking = parseInt(document.getElementById('team-ranking').value);
 
-    function editTeam(index) {
-        const teams = loadFromCookies();
-        const team = teams[index];
-        document.getElementById('team-name').value = team.name;
-        document.getElementById('team-number').value = team.number;
-        document.getElementById('team-ranking').value = team.ranking;
-        editingIndex = index;
-    }
+            const teams = loadFromCookies();
+            if (editingIndex > -1) {
+                teams[editingIndex] = { name, number, ranking };
+                editingIndex = -1;
+            } else {
+                teams.push({ name, number, ranking });
+            }
 
-    window.onload = renderTeams;
-</script>
+            saveToCookies(teams);
+            renderTeams();
 
+            // Clear fields
+            document.getElementById('team-name').value = '';
+            document.getElementById('team-number').value = '';
+            document.getElementById('team-ranking').value = '';
+        }
+
+        function removeTeam(index) {
+            const teams = loadFromCookies();
+            teams.splice(index, 1);
+            saveToCookies(teams);
+            renderTeams();
+        }
+
+        function editTeam(index) {
+            const teams = loadFromCookies();
+            document.getElementById('team-name').value = teams[index].name;
+            document.getElementById('team-number').value = teams[index].number;
+            document.getElementById('team-ranking').value = teams[index].ranking;
+            editingIndex = index;
+        }
+
+        window.onload = renderTeams;
+    </script>
 </body>
+
 </html>
