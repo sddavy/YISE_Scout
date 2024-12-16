@@ -24,7 +24,15 @@
             color: white;
             padding: 20px;
             display: flex;
+            justify-content: center; /* Center the content of the header */
             align-items: center;
+        }
+
+        /* Container for the logo and text */
+        .header-content {
+            display: flex;
+            align-items: center;
+            width: 100%;
         }
 
         /* Apply Aerospace font to header text */
@@ -32,8 +40,8 @@
             font-family: 'Aerospace', sans-serif; /* Apply the Aerospace font */
             font-size: 48px;
             text-align: center;
-            margin: 0;
             flex-grow: 1;
+            margin: 0;
         }
 
         /* Logo styling (increased size) */
@@ -44,10 +52,9 @@
 
         /* Navigation bar / tabs styles */
         nav {
-            background-color: #f4f4f9; /* Light background for tabs */
+            background-color: #e0e0e0; /* Grey background for tabs */
             padding: 10px;
             text-align: center;
-            border-bottom: 2px solid #ccc; /* Border to visually connect the tabs with the content */
         }
 
         nav a {
@@ -57,20 +64,19 @@
             margin: 0 10px;
             font-size: 18px;
             border-radius: 5px;
-            background-color: #e0e0e0; /* Light grey background for all tabs */
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: background-color 0.3s ease;
         }
 
-        /* Hover effect - Darker grey on hover */
+        /* Hover effect - Darker grey */
         nav a:hover {
-            background-color: #b0b0b0; /* Even darker grey on hover */
+            background-color: #b0b0b0; /* Darker grey on hover */
             color: white;
         }
 
-        /* Active tab color - same as hover for consistency */
+        /* Active tab color */
         nav a.active {
-            background-color: #b0b0b0; /* Darker grey for active tab */
-            color: white;
+            background-color: #e0e0e0; /* Same as background */
+            color: #333;
         }
 
         /* Main content section */
@@ -103,7 +109,6 @@
             text-align: center;
             padding: 10px 0;
             width: 100%;
-            position: relative; /* Ensure it stays at the bottom */
         }
 
         footer small {
@@ -115,8 +120,10 @@
 
     <!-- Header Section -->
     <header>
-        <img src="yise.png" alt="YISE Scouting Logo"> <!-- Logo on the left -->
-        <h1>YISE Scouting</h1> <!-- Centered text with Aerospace font -->
+        <div class="header-content">
+            <img src="yise.png" alt="YISE Scouting Logo"> <!-- Logo on the left -->
+            <h1>YISE Scouting</h1> <!-- Centered text -->
+        </div>
     </header>
 
     <!-- Navigation Tabs -->
