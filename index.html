@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Links</title>
+    <title>YISE Scouting</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,14 +11,32 @@
             padding: 0;
             background-color: #f4f4f9;
         }
+        /* Header Styles */
+        header {
+            background-color: #007BFF; /* Blue background for the header */
+            color: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        header img {
+            height: 40px; /* Adjust logo size */
+        }
+        /* Container Styles */
         .container {
-            max-width: 400px;
-            margin: 100px auto;
+            max-width: 900px;
+            margin: 20px auto;
             padding: 20px;
             background-color: white;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
+        /* Button styles for links */
         .button {
             display: block;
             width: 100%;
@@ -27,7 +45,7 @@
             text-align: center;
             font-size: 18px;
             color: white;
-            background-color: #4CAF50;
+            background-color: #007BFF; /* Blue color for buttons */
             border: none;
             border-radius: 5px;
             text-decoration: none;
@@ -35,18 +53,45 @@
             transition: background-color 0.3s;
         }
         .button:hover {
-            background-color: #45a049;
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+        /* Layout for larger screens (laptops and desktops) */
+        @media (min-width: 768px) {
+            .container {
+                display: flex;
+            }
+            .container .links {
+                width: 200px;
+                margin-right: 20px;
+            }
+            .container .links .button {
+                width: 100%;
+            }
+        }
+        /* Layout for smaller screens (mobile/tablets) */
+        @media (max-width: 767px) {
+            .container .links {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
 
+    <!-- Header Section -->
+    <header>
+        <img src="logo.png" alt="YISE Scouting Logo"> <!-- Add your logo image here -->
+        <h1>YISE Scouting</h1>
+    </header>
+
+    <!-- Main Content Section -->
     <div class="container">
-        <h2>Website Links</h2>
-        <a href="https://www.example1.com" class="button" target="_blank">Example Website 1</a>
-        <a href="https://www.example2.com" class="button" target="_blank">Example Website 2</a>
-        <a href="https://www.example3.com" class="button" target="_blank">Example Website 3</a>
-        <a href="https://www.example4.com" class="button" target="_blank">Example Website 4</a>
+        <div class="links">
+            <a href="https://www.example1.com" class="button" target="_blank">Example Website 1</a>
+            <a href="https://www.example2.com" class="button" target="_blank">Example Website 2</a>
+            <a href="https://www.example3.com" class="button" target="_blank">Example Website 3</a>
+            <a href="https://www.example4.com" class="button" target="_blank">Example Website 4</a>
+        </div>
     </div>
 
 </body>
