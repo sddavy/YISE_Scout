@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Team List - YISE Scouting</title>
-    <script src="https://cdn.jsdelivr.net/npm/appwrite@11.0.1"></script>
+    
     <style>
+        /* General Page Styling */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -19,34 +20,36 @@
         header {
             background-color: #1b1dcc;
             color: white;
-            padding: 20px;
+            padding: 10px;
             text-align: center;
         }
 
         .container {
-            max-width: 1200px;
             margin: 20px auto;
-            padding: 20px;
+            max-width: 1200px;
             background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
             border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             flex-grow: 1;
         }
 
         input {
-            padding: 8px;
-            margin: 10px;
-            font-size: 16px;
-            width: 200px;
+            padding: 10px;
+            margin: 5px;
+            font-size: 14px;
+            width: 250px;
         }
 
         button {
-            padding: 8px 12px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
             background-color: #1b1dcc;
             color: white;
             border: none;
-            cursor: pointer;
-            font-size: 16px;
+            border-radius: 4px;
+            margin: 5px;
         }
 
         button:hover {
@@ -54,23 +57,20 @@
         }
 
         table {
-            width: 100%;
             margin-top: 20px;
+            border: 1px solid #ddd;
+            width: 100%;
             border-collapse: collapse;
         }
 
         th, td {
-            padding: 12px;
+            padding: 10px;
             text-align: left;
-            border-bottom: 1px solid #ddd;
+            border: 1px solid #ddd;
         }
 
         th {
             background-color: #f4f4f4;
-        }
-
-        td button {
-            margin-right: 10px;
         }
     </style>
 </head>
@@ -97,26 +97,21 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Team rows will be dynamically inserted here -->
+                <!-- Rows will be dynamically populated -->
             </tbody>
         </table>
     </div>
 
     <script>
-        // Initialize Appwrite Client
-        const client = new Appwrite.Client()
-            .setEndpoint('https://cloud.appwrite.io/v1') // Replace with your Appwrite endpoint
-            .setProject('67607fa700035106b152'); // Replace with your Appwrite project ID
+        const BASE_URL = "https://shy-term-3d7c.samuel-d-davy09.workers.dev"; // Replace with your actual deployed Cloudflare Workers endpoint.
 
-        const database = new Appwrite.Databases(client, '1234'); // Replace with your database ID
-
-        // Load teams from Appwrite database
+        // Fetch Teams
         async function loadTeams() {
             try {
-                const response = await database.listDocuments('teams', [], { orderBy: ['ranking'], orderType: 'DESC' });
-                const teams = response.documents;
-                const teamList = document.getElementById("team-list").getElementsByTagName("tbody")[0];
-                teamList.innerHTML = ""; // Clear current list
+                const response = await fetch(`${BASE_URL}/teams`);
+                const teams = await response.json();
+                const teamList = document.querySelector("#team-list tbody");
+                teamList.innerHTML = ""; // Clear table rows
 
                 teams.forEach(team => {
                     const row = teamList.insertRow();
@@ -124,57 +119,67 @@
                     row.insertCell(1).textContent = "#" + team.number;
                     row.insertCell(2).textContent = team.ranking;
                     row.insertCell(3).innerHTML = `
-                        <button onclick="editTeam('${team.$id}')">Edit</button>
-                        <button onclick="removeTeam('${team.$id}')">Remove</button>
+                        <button onclick="removeTeam('${team.id}')">Remove</button>
                     `;
                 });
             } catch (error) {
-                console.error("Error loading teams:", error);
+                console.error("Error loading teams: ", error);
             }
         }
 
-        // Add a new team
+        // Add Team
         async function addTeam() {
-            const teamName = document.getElementById("team-name").value;
-            const teamNumber = document.getElementById("team-number").value;
-            const teamRanking = document.getElementById("team-ranking").value;
+            const name = document.getElementById("team-name").value;
+            const number = document.getElementById("team-number").value;
+            const ranking = document.getElementById("team-ranking").value;
 
-            if (!teamName || !teamNumber || !teamRanking) {
+            if (!name || !number || !ranking) {
                 alert("Please fill out all fields.");
                 return;
             }
 
             try {
-                await database.createDocument('teams', 'unique()', {
-                    name: teamName,
-                    number: parseInt(teamNumber),
-                    ranking: parseInt(teamRanking)
+                const response = await fetch(`${BASE_URL}/teams`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        name,
+                        number: parseInt(number),
+                        ranking: parseInt(ranking)
+                    })
                 });
-                loadTeams();
-                document.getElementById("team-name").value = '';
-                document.getElementById("team-number").value = '';
-                document.getElementById("team-ranking").value = '';
+
+                if (response.ok) {
+                    alert("Team added successfully!");
+                    loadTeams();
+                    document.getElementById("team-name").value = "";
+                    document.getElementById("team-number").value = "";
+                    document.getElementById("team-ranking").value = "";
+                }
             } catch (error) {
-                console.error("Error adding team:", error);
+                console.error("Error adding team: ", error);
             }
         }
 
-        // Remove a team
+        // Remove Team
         async function removeTeam(teamId) {
             try {
-                await database.deleteDocument('teams', teamId);
-                loadTeams();
+                const response = await fetch(`${BASE_URL}/teams/${teamId}`, {
+                    method: "DELETE",
+                });
+
+                if (response.ok) {
+                    alert("Team removed successfully!");
+                    loadTeams();
+                }
             } catch (error) {
-                console.error("Error removing team:", error);
+                console.error("Error removing team: ", error);
             }
         }
 
-        // Edit a team (placeholder for actual editing logic)
-        function editTeam(teamId) {
-            alert(`Edit team with ID: ${teamId}`);
-        }
-
-        // Load teams when the page loads
+        // Load the teams on page load
         window.onload = loadTeams;
     </script>
 </body>
