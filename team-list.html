@@ -33,7 +33,7 @@
         header {
             background-color: #1b1dcc;
             color: white;
-            padding: 10px 20px;
+            padding: 20px 10px;
             display: flex;
             align-items: center;
         }
@@ -161,7 +161,7 @@
 
     <!-- Main Content Section -->
     <div class="container">
-        <h2>Manage Your Teams</h2>
+        <h2>Team List</h2>
         <div>
             <input id="team-name" placeholder="Team Name">
             <input id="team-number" placeholder="Team Number">
@@ -202,7 +202,7 @@
         function renderTeams() {
             const teamListEl = document.getElementById('team-list');
             teamListEl.innerHTML = '';
-            const teams = loadFromCookies().sort((a, b) => b.ranking - a.ranking);
+            const teams = loadFromCookies().sort((a, b) => a.ranking - b.ranking);
 
             teams.forEach((team, index) => {
                 const row = document.createElement('tr');
