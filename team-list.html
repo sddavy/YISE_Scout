@@ -132,6 +132,7 @@
         .input-section {
             margin-top: 30px;
             text-align: center;
+            margin-bottom: 50px; /* Adds space between input section and footer */
         }
 
         .input-section input {
@@ -175,19 +176,29 @@
 
         th {
             background-color: #f4f4f4;
+            cursor: pointer;
         }
 
-        .edit-btn {
+        .edit-btn, .remove-btn {
             padding: 5px 10px;
             background-color: #f0ad4e;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            margin-right: 5px;
         }
 
-        .edit-btn:hover {
+        .edit-btn:hover, .remove-btn:hover {
             background-color: #ec971f;
+        }
+
+        .remove-btn {
+            background-color: #d9534f;
+        }
+
+        .remove-btn:hover {
+            background-color: #c9302c;
         }
     </style>
 </head>
@@ -225,9 +236,9 @@
         <table id="teamList">
             <thead>
                 <tr>
-                    <th>Team Name</th>
-                    <th>Team Number</th>
-                    <th>Ranking</th>
+                    <th onclick="sortTable(0)">Team Name</th>
+                    <th onclick="sortTable(1)">Team Number</th>
+                    <th onclick="sortTable(2)">Ranking</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -281,7 +292,8 @@
                 row.cells[0].textContent = teamName;
                 row.cells[1].textContent = teamNumber;
                 row.cells[2].textContent = teamRanking;
-                row.cells[3].innerHTML = `<button class="edit-btn" onclick="editTeam(${editingIndex})">Edit</button>`;
+                row.cells[3].innerHTML = `<button class="edit-btn" onclick="editTeam(${editingIndex})">Edit</button>
+                                           <button class="remove-btn" onclick="removeTeam(${editingIndex})">Remove</button>`;
 
                 editingIndex = -1; // Reset after edit
             } else {
@@ -295,7 +307,8 @@
                 nameCell.textContent = teamName;
                 numberCell.textContent = teamNumber;
                 rankingCell.textContent = teamRanking;
-                actionsCell.innerHTML = `<button class="edit-btn" onclick="editTeam(${table.rows.length - 1})">Edit</button>`;
+                actionsCell.innerHTML = `<button class="edit-btn" onclick="editTeam(${table.rows.length - 1})">Edit</button>
+                                         <button class="remove-btn" onclick="removeTeam(${table.rows.length - 1})">Remove</button>`;
             }
 
             // Clear input fields after adding or editing the team
@@ -319,6 +332,31 @@
 
             // Change the submit button to reflect "Edit"
             document.getElementById('submitButton').textContent = 'Save Changes';
+        }
+
+        function removeTeam(index) {
+            const table = document.getElementById('teamList').getElementsByTagName('tbody')[0];
+            table.deleteRow(index);
+        }
+
+        function sortTable(colIndex) {
+            const table = document.getElementById('teamList').getElementsByTagName('tbody')[0];
+            const rows = Array.from(table.rows);
+            const isAscending = table.rows[0].cells[colIndex].classList.toggle('asc');
+
+            rows.sort((a, b) => {
+                const aText = a.cells[colIndex].textContent.trim();
+                const bText = b.cells[colIndex].textContent.trim();
+
+                if (isNaN(aText) || isNaN(bText)) {
+                    return isAscending ? aText.localeCompare(bText) : bText.localeCompare(aText);
+                } else {
+                    return isAscending ? aText - bText : bText - aText;
+                }
+            });
+
+            // Reorder the rows in the table
+            rows.forEach(row => table.appendChild(row));
         }
     </script>
 
