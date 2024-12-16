@@ -5,8 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YISE Scouting</title>
 
-    <!-- Inline CSS for styling -->
+    <!-- Custom font-face rule for the Aerospace font -->
     <style>
+        /* Custom font-face rule for the Aerospace font */
+        @font-face {
+            font-family: 'Aerospace';
+            src: url('aerospace.woff') format('woff'), /* Adjust the path to your font file */
+                 url('aerospace.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         /* Basic styles for the body */
         body {
             font-family: Arial, sans-serif;
@@ -35,7 +44,7 @@
             width: 100%;
         }
 
-        /* Apply Aerospace font to header text */
+        /* Apply Aerospace font to only the main header text (h1) */
         header h1 {
             font-family: 'Aerospace', sans-serif; /* Apply the Aerospace font */
             font-size: 48px;
@@ -130,7 +139,8 @@
 
     <!-- Navigation Tabs -->
     <nav>
-        <a href="about.html" class="active">About</a>  <!-- Make the About tab active -->
+        <a href="index.html" class="active">Home</a> <!-- Make this tab active -->
+        <a href="about.html">About</a>
         <a href="parent-scouting.html">Parent Scouting</a>
         <a href="competition-scouting.html">Competition Scouting</a>
         <a href="pit-scouting.html">Pit Scouting</a>
