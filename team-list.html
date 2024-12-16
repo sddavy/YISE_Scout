@@ -7,16 +7,27 @@
 
     <link rel="icon" href="yise.png" type="image/png">
 
-    <style>
-        /* Custom font-face rule for the Aerospace font */
-        @font-face {
-            font-family: 'Aerospace';
-            src: url('aerospace.woff') format('woff'), /* Adjust the path to your font file */
-                 url('aerospace.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyArO0qqSJEuWzyuUcc9-aUDf5eUCDsHZbY",
+          authDomain: "yise-scout.firebaseapp.com",
+          projectId: "yise-scout",
+          storageBucket: "yise-scout.firebasestorage.app",
+          messagingSenderId: "248647870137",
+          appId: "1:248647870137:web:a16a44b64aca48eef7dd68"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+    </script>
+
+    <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -36,10 +47,9 @@
             align-items: center;
         }
 
-        .header-content {
-            display: flex;
-            align-items: center;
-            width: 100%;
+        header img {
+            height: 160px;
+            margin-right: 20px;
         }
 
         header h1 {
@@ -48,11 +58,6 @@
             text-align: center;
             flex-grow: 1;
             margin: 0;
-        }
-
-        header img {
-            height: 160px;
-            margin-right: 20px;
         }
 
         nav {
@@ -98,12 +103,6 @@
             margin-bottom: 20px;
         }
 
-        .container p {
-            font-size: 18px;
-            color: #555;
-            line-height: 1.6;
-        }
-
         footer {
             background-color: #1b1dcc;
             color: white;
@@ -116,33 +115,35 @@
             font-size: 12px;
         }
 
-        .input-section {
-            margin-top: 30px;
-            text-align: center;
-            margin-bottom: 50px;
+        .add-team-form {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .input-section input {
+        .add-team-form input {
             padding: 10px;
-            margin: 5px;
+            margin-right: 10px;
+            margin-bottom: 10px;
             font-size: 16px;
-            border-radius: 4px;
             border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 200px;
         }
 
-        .input-section button {
+        .add-team-form button {
             padding: 10px 20px;
-            margin-top: 10px;
             background-color: #1b1dcc;
             color: white;
-            font-size: 16px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
         }
 
-        .input-section button:hover {
-            background-color: #155ab6;
+        .add-team-form button:hover {
+            background-color: #2c3e9e;
         }
 
         table {
@@ -151,45 +152,29 @@
             margin-top: 20px;
         }
 
-        table, th, td {
-            border: 1px solid #ccc;
+        table th, table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
         }
 
-        th, td {
-            padding: 12px;
-            text-align: center;
-        }
-
-        th {
-            background-color: #f4f4f4;
-            cursor: pointer;
-        }
-
-        .edit-btn, .remove-btn {
-            padding: 5px 10px;
-            background-color: #f0ad4e;
+        .actions button {
+            background-color: #e74c3c;
             color: white;
             border: none;
-            border-radius: 4px;
+            padding: 5px 10px;
             cursor: pointer;
-            margin-right: 5px;
+            border-radius: 4px;
         }
 
-        .edit-btn:hover, .remove-btn:hover {
-            background-color: #ec971f;
-        }
-
-        .remove-btn {
-            background-color: #d9534f;
-        }
-
-        .remove-btn:hover {
-            background-color: #c9302c;
+        .actions button:hover {
+            background-color: #c0392b;
         }
     </style>
 </head>
 <body>
 
+    <!-- Header Section -->
     <header>
         <div class="header-content">
             <img src="yise.png" alt="YISE Scouting Logo">
@@ -197,6 +182,7 @@
         </div>
     </header>
 
+    <!-- Navigation Tabs -->
     <nav>
         <a href="index.html">About</a>
         <a href="parent-scouting.html">Parent Scouting</a>
@@ -207,180 +193,127 @@
         <a href="drive-coach.html">Drive Coach</a>
     </nav>
 
+    <!-- Main Content Section -->
     <div class="container">
         <h2>Team List</h2>
-        <p>
-            This page provides a list of all the teams participating at the event.
-        </p>
+        <p>This page provides a list of all the teams participating at the event. Clicking on a team name will bring up the team's page.</p>
 
-        <table id="teamList">
+        <!-- Add Team Form -->
+        <div class="add-team-form">
+            <h3>Add Team</h3>
+            <input type="text" id="team-name" placeholder="Team Name" />
+            <input type="text" id="team-number" placeholder="Team Number" />
+            <input type="text" id="team-ranking" placeholder="Ranking" />
+            <button onclick="addTeam()">Add Team</button>
+        </div>
+
+        <!-- Team List Table -->
+        <table id="team-list">
             <thead>
                 <tr>
-                    <th onclick="sortTable(0)">Team Name</th>
-                    <th onclick="sortTable(1)">Team Number</th>
-                    <th onclick="sortTable(2)">Ranking</th>
+                    <th>Team Name</th>
+                    <th>Team Number</th>
+                    <th>Ranking</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Team data will be added here -->
+                <!-- Dynamic team rows will be inserted here -->
             </tbody>
         </table>
     </div>
 
-    <div class="input-section">
-        <h3>Add Team</h3>
-        <input type="text" id="teamName" placeholder="Team Name" oninput="checkInput()">
-        <input type="number" id="teamNumber" placeholder="Team Number" oninput="checkInput()">
-        <input type="number" id="teamRanking" placeholder="Ranking" oninput="checkInput()">
-        <button id="submitButton" style="display: none;" onclick="addTeam()">Add Team</button>
-    </div>
-
+    <!-- Footer Section -->
     <footer>
         <small>Brought to you by FTC YISE #11308 | All Rights Reserved | © 2024</small>
     </footer>
 
     <script>
-        let editingIndex = -1;
+        // Reference to Firestore collection
+        const teamsRef = db.collection("teams");
 
-        // Check if all input fields are filled
-        function checkInput() {
-            const teamName = document.getElementById('teamName').value;
-            const teamNumber = document.getElementById('teamNumber').value;
-            const teamRanking = document.getElementById('teamRanking').value;
+        // Function to add a new team to Firestore
+        async function addTeam() {
+            const teamName = document.getElementById("team-name").value;
+            const teamNumber = document.getElementById("team-number").value;
+            const teamRanking = document.getElementById("team-ranking").value;
 
-            if (teamName && teamNumber && teamRanking) {
-                document.getElementById('submitButton').style.display = 'inline-block';
-            } else {
-                document.getElementById('submitButton').style.display = 'none';
+            if (!teamName || !teamNumber || !teamRanking) {
+                alert("Please fill out all fields.");
+                return;
+            }
+
+            await teamsRef.add({
+                name: teamName,
+                number: teamNumber,
+                ranking: parseInt(teamRanking)
+            });
+
+            document.getElementById("team-name").value = "";
+            document.getElementById("team-number").value = "";
+            document.getElementById("team-ranking").value = "";
+
+            loadTeams();
+        }
+
+        // Function to load teams from Firestore
+        async function loadTeams() {
+            const snapshot = await teamsRef.orderBy("ranking", "desc").get();
+            const teamList = document.getElementById("team-list").getElementsByTagName("tbody")[0];
+            teamList.innerHTML = ""; // Clear current list
+
+            snapshot.forEach(doc => {
+                const team = doc.data();
+                const row = teamList.insertRow();
+
+                const teamNameCell = row.insertCell(0);
+                teamNameCell.textContent = team.name;
+
+                const teamNumberCell = row.insertCell(1);
+                teamNumberCell.textContent = "#" + team.number;
+
+                const teamRankingCell = row.insertCell(2);
+                teamRankingCell.textContent = team.ranking;
+
+                const actionsCell = row.insertCell(3);
+                actionsCell.classList.add("actions");
+                actionsCell.innerHTML = `
+                    <button onclick="editTeam('${doc.id}')">Edit</button>
+                    <button onclick="removeTeam('${doc.id}')">Remove</button>
+                `;
+            });
+        }
+
+        // Function to edit a team
+        async function editTeam(id) {
+            const doc = await teamsRef.doc(id).get();
+            const team = doc.data();
+
+            const newName = prompt("Edit Team Name:", team.name);
+            const newNumber = prompt("Edit Team Number:", team.number);
+            const newRanking = prompt("Edit Ranking:", team.ranking);
+
+            if (newName && newNumber && newRanking) {
+                await teamsRef.doc(id).update({
+                    name: newName,
+                    number: newNumber,
+                    ranking: parseInt(newRanking)
+                });
+
+                loadTeams();
             }
         }
 
-        // Add or update a team
-        function addTeam() {
-            const teamName = document.getElementById('teamName').value;
-            const teamNumber = document.getElementById('teamNumber').value;
-            const teamRanking = document.getElementById('teamRanking').value;
-
-            const table = document.getElementById('teamList').getElementsByTagName('tbody')[0];
-
-            if (editingIndex > -1) {
-                // Edit the existing team
-                const row = table.rows[editingIndex];
-                row.cells[0].textContent = teamName;
-                row.cells[1].textContent = "#" + teamNumber;  // Add "#" before team number
-                row.cells[2].textContent = teamRanking;
-                row.cells[3].innerHTML = `<button class="edit-btn" onclick="editTeam(${editingIndex})">Edit</button>
-                                           <button class="remove-btn" onclick="removeTeam(${editingIndex})">Remove</button>`;
-
-                editingIndex = -1;
-            } else {
-                // Add a new team
-                const newRow = table.insertRow();
-                const nameCell = newRow.insertCell(0);
-                const numberCell = newRow.insertCell(1);
-                const rankingCell = newRow.insertCell(2);
-                const actionsCell = newRow.insertCell(3);
-
-                nameCell.textContent = teamName;
-                numberCell.textContent = "#" + teamNumber;
-                rankingCell.textContent = teamRanking;
-                actionsCell.innerHTML = `<button class="edit-btn" onclick="editTeam(${table.rows.length - 1})">Edit</button>
-                                         <button class="remove-btn" onclick="removeTeam(${table.rows.length - 1})">Remove</button>`;
+        // Function to remove a team
+        async function removeTeam(id) {
+            if (confirm("Are you sure you want to remove this team?")) {
+                await teamsRef.doc(id).delete();
+                loadTeams();
             }
-
-            // Save to localStorage
-            saveTeamsToLocalStorage();
-
-            // Clear input fields
-            document.getElementById('teamName').value = '';
-            document.getElementById('teamNumber').value = '';
-            document.getElementById('teamRanking').value = '';
-            document.getElementById('submitButton').style.display = 'none';
         }
 
-        // Edit a team
-        function editTeam(index) {
-            const row = document.getElementById('teamList').getElementsByTagName('tbody')[0].rows[index];
-
-            document.getElementById('teamName').value = row.cells[0].textContent;
-            document.getElementById('teamNumber').value = row.cells[1].textContent.replace('#', '');
-            document.getElementById('teamRanking').value = row.cells[2].textContent;
-
-            editingIndex = index;
-            document.getElementById('submitButton').style.display = 'inline-block';
-        }
-
-        // Remove a team
-        function removeTeam(index) {
-            document.getElementById('teamList').getElementsByTagName('tbody')[0].deleteRow(index);
-            saveTeamsToLocalStorage();
-        }
-
-        // Sort the table
-        function sortTable(n) {
-            const table = document.getElementById("teamList");
-            const rows = Array.from(table.rows).slice(1); // Skip the header row
-            const isAscending = table.rows[0].cells[n].getAttribute('data-asc') === 'true';
-            
-            rows.sort((a, b) => {
-                const aText = a.cells[n].textContent;
-                const bText = b.cells[n].textContent;
-                
-                if (n === 1) {
-                    // Sort by number (use numeric comparison for team number)
-                    return isAscending ? parseInt(aText.slice(1)) - parseInt(bText.slice(1)) : parseInt(bText.slice(1)) - parseInt(aText.slice(1));
-                } else if (n === 2) {
-                    // Sort by ranking (numeric comparison)
-                    return isAscending ? parseInt(aText) - parseInt(bText) : parseInt(bText) - parseInt(aText);
-                } else {
-                    return isAscending ? aText.localeCompare(bText) : bText.localeCompare(aText);
-                }
-            });
-
-            // Reorder the rows in the table
-            rows.forEach(row => table.appendChild(row));
-
-            // Toggle sorting order
-            table.rows[0].cells[n].setAttribute('data-asc', isAscending ? 'false' : 'true');
-        }
-
-        // Save teams to localStorage
-        function saveTeamsToLocalStorage() {
-            const table = document.getElementById('teamList').getElementsByTagName('tbody')[0];
-            const teams = Array.from(table.rows).map(row => {
-                return {
-                    name: row.cells[0].textContent,
-                    number: row.cells[1].textContent,
-                    ranking: row.cells[2].textContent
-                };
-            });
-
-            localStorage.setItem('teams', JSON.stringify(teams));
-        }
-
-        // Load teams from localStorage
-        function loadTeamsFromLocalStorage() {
-            const teams = JSON.parse(localStorage.getItem('teams')) || [];
-            const table = document.getElementById('teamList').getElementsByTagName('tbody')[0];
-
-            teams.forEach(team => {
-                const newRow = table.insertRow();
-                const nameCell = newRow.insertCell(0);
-                const numberCell = newRow.insertCell(1);
-                const rankingCell = newRow.insertCell(2);
-                const actionsCell = newRow.insertCell(3);
-
-                nameCell.textContent = team.name;
-                numberCell.textContent = team.number;
-                rankingCell.textContent = team.ranking;
-                actionsCell.innerHTML = `<button class="edit-btn" onclick="editTeam(${table.rows.length - 1})">Edit</button>
-                                         <button class="remove-btn" onclick="removeTeam(${table.rows.length - 1})">Remove</button>`;
-            });
-        }
-
-        // Load teams on page load
-        window.onload = loadTeamsFromLocalStorage;
+        // Initial load of teams
+        loadTeams();
     </script>
 </body>
 </html>
