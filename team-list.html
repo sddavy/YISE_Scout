@@ -19,7 +19,7 @@
             font-style: normal;
         }
 
-        /* Basic styles for the body */
+        /* General body styling */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -27,10 +27,9 @@
             background-color: #f4f4f9;
             display: flex;
             flex-direction: column;
-            height: 100vh; /* Ensure the body takes full height of the viewport */
+            height: 100vh;
         }
 
-        /* Header styles */
         header {
             background-color: #1b1dcc;
             color: white;
@@ -40,26 +39,6 @@
             align-items: center;
         }
 
-        .header-content {
-            display: flex;
-            align-items: center;
-            width: 100%;
-        }
-
-        header h1 {
-            font-family: 'Aerospace', sans-serif;
-            font-size: 48px;
-            text-align: center;
-            flex-grow: 1;
-            margin: 0;
-        }
-
-        header img {
-            height: 160px;
-            margin-right: 20px;
-        }
-
-        /* Navigation bar / tabs styles */
         nav {
             background-color: #e0e0e0;
             padding: 10px;
@@ -80,13 +59,6 @@
             color: white;
         }
 
-        nav a.active {
-            background-color: #1b1dcc;
-            color: white;
-            border-radius: 0;
-        }
-
-        /* Main content section */
         .container {
             max-width: 1200px;
             margin: 20px auto;
@@ -97,14 +69,6 @@
             flex-grow: 1;
         }
 
-        .container h2 {
-            font-size: 32px;
-            color: #333;
-            text-align: left;
-            margin-bottom: 20px;
-        }
-
-        /* Table Base Styles */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -112,34 +76,27 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
+        table th,
+        table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
         table th {
             background-color: #1b1dcc;
             color: white;
-            text-align: left;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ddd;
         }
 
         table tr:nth-child(even) {
             background-color: #f2f2f2;
         }
 
-        table tr:nth-child(odd) {
-            background-color: white;
-        }
-
-        table td {
-            padding: 10px;
-            font-size: 14px;
-            border: 1px solid #ddd;
-        }
-
         table tr:hover {
             background-color: #e0e0e0;
         }
 
-        table .action-btn {
+        .action-btn {
             padding: 6px 12px;
             background-color: #1b1dcc;
             color: white;
@@ -149,37 +106,15 @@
             transition: background-color 0.3s ease;
         }
 
-        table .action-btn:hover {
+        .action-btn:hover {
             background-color: #005bb5;
-        }
-
-        @media (max-width: 768px) {
-            table td,
-            table th {
-                font-size: 12px;
-                padding: 8px;
-            }
-        }
-
-        /* Footer styles */
-        footer {
-            background-color: #1b1dcc;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-            width: 100%;
-        }
-
-        footer small {
-            font-size: 12px;
         }
     </style>
 </head>
 <body>
     <!-- Header Section -->
     <header>
-        <div class="header-content">
-            <img src="yise.png" alt="YISE Scouting Logo">
+        <div>
             <h1>YISE Scouting</h1>
         </div>
     </header>
@@ -216,24 +151,7 @@
                 </tr>
             </thead>
             <tbody id="team-list">
-                <tr>
-                    <td>1</td>
-                    <td>Team Alpha</td>
-                    <td>11308</td>
-                    <td>
-                        <button class="action-btn">View</button>
-                        <button class="action-btn">Edit</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Team Beta</td>
-                    <td>11309</td>
-                    <td>
-                        <button class="action-btn">View</button>
-                        <button class="action-btn">Edit</button>
-                    </td>
-                </tr>
+                <!-- Dynamic rows will be inserted here -->
             </tbody>
         </table>
     </div>
@@ -242,5 +160,51 @@
     <footer>
         <small>Brought to you by FTC YISE #11308 | All Rights Reserved | © 2024</small>
     </footer>
+
+    <!-- JavaScript -->
+    <script>
+        let teamCounter = 1;
+
+        function addTeam() {
+            const teamNameInput = document.getElementById('team-name');
+            const teamNumberInput = document.getElementById('team-number');
+            const teamRankingInput = document.getElementById('team-ranking');
+
+            const teamName = teamNameInput.value.trim();
+            const teamNumber = teamNumberInput.value.trim();
+            const teamRanking = teamRankingInput.value.trim();
+
+            if (!teamName || !teamNumber || !teamRanking) {
+                alert('Please fill in all fields!');
+                return;
+            }
+
+            const teamList = document.getElementById('team-list');
+            const newRow = document.createElement('tr');
+
+            newRow.innerHTML = `
+                <td>${teamRanking}</td>
+                <td>${teamName}</td>
+                <td>${teamNumber}</td>
+                <td>
+                    <button class="action-btn" onclick="editTeam(${teamCounter})">Edit</button>
+                </td>
+            `;
+
+            teamList.appendChild(newRow);
+
+            teamCounter++;
+
+            // Clear input fields after adding
+            teamNameInput.value = '';
+            teamNumberInput.value = '';
+            teamRankingInput.value = '';
+        }
+
+        function editTeam(id) {
+            alert(`Edit action triggered for team ${id}`);
+            console.log(`Edit button clicked for team ${id}`);
+        }
+    </script>
 </body>
 </html>
