@@ -176,6 +176,19 @@
         th {
             background-color: #f4f4f4;
         }
+
+        .edit-btn {
+            padding: 5px 10px;
+            background-color: #f0ad4e;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .edit-btn:hover {
+            background-color: #ec971f;
+        }
     </style>
 </head>
 <body>
@@ -205,16 +218,8 @@
         <p>
             This page provides a list of all the teams participating at the event.  
             It will be a way for parents, mentors, and the drive coach to see what teams are participating. 
-            Clicking on the name of a team in the list will bring up that teams page.
+            Clicking on the name of a team in the list will bring up that team's page.
         </p>
-
-        <!-- Input Section for adding a new team -->
-        <div class="input-section">
-            <input type="text" id="teamName" placeholder="Team Name" oninput="checkInput()">
-            <input type="number" id="teamNumber" placeholder="Team Number" oninput="checkInput()">
-            <input type="number" id="teamRanking" placeholder="Ranking" oninput="checkInput()">
-            <button id="submitButton" style="display: none;" onclick="addTeam()">Add Team</button>
-        </div>
 
         <!-- Table for displaying the team list -->
         <table id="teamList">
@@ -223,12 +228,22 @@
                     <th>Team Name</th>
                     <th>Team Number</th>
                     <th>Ranking</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <!-- Team data will be added here -->
             </tbody>
         </table>
+    </div>
+
+    <!-- Add Team Section -->
+    <div class="input-section">
+        <h3>Add Team</h3>
+        <input type="text" id="teamName" placeholder="Team Name" oninput="checkInput()">
+        <input type="number" id="teamNumber" placeholder="Team Number" oninput="checkInput()">
+        <input type="number" id="teamRanking" placeholder="Ranking" oninput="checkInput()">
+        <button id="submitButton" style="display: none;" onclick="addTeam()">Add Team</button>
     </div>
 
     <!-- Footer Section -->
@@ -238,6 +253,8 @@
 
     <!-- JavaScript for handling the form input and adding to the list -->
     <script>
+        let editingIndex = -1;
+
         function checkInput() {
             const teamName = document.getElementById('teamName').value;
             const teamNumber = document.getElementById('teamNumber').value;
@@ -257,23 +274,51 @@
             const teamRanking = document.getElementById('teamRanking').value;
 
             const table = document.getElementById('teamList').getElementsByTagName('tbody')[0];
-            const newRow = table.insertRow();
 
-            const nameCell = newRow.insertCell(0);
-            const numberCell = newRow.insertCell(1);
-            const rankingCell = newRow.insertCell(2);
+            // If editing an existing team
+            if (editingIndex > -1) {
+                const row = table.rows[editingIndex];
+                row.cells[0].textContent = teamName;
+                row.cells[1].textContent = teamNumber;
+                row.cells[2].textContent = teamRanking;
+                row.cells[3].innerHTML = `<button class="edit-btn" onclick="editTeam(${editingIndex})">Edit</button>`;
 
-            nameCell.textContent = teamName;
-            numberCell.textContent = teamNumber;
-            rankingCell.textContent = teamRanking;
+                editingIndex = -1; // Reset after edit
+            } else {
+                // Add new team row
+                const newRow = table.insertRow();
+                const nameCell = newRow.insertCell(0);
+                const numberCell = newRow.insertCell(1);
+                const rankingCell = newRow.insertCell(2);
+                const actionsCell = newRow.insertCell(3);
 
-            // Clear input fields after adding the team
+                nameCell.textContent = teamName;
+                numberCell.textContent = teamNumber;
+                rankingCell.textContent = teamRanking;
+                actionsCell.innerHTML = `<button class="edit-btn" onclick="editTeam(${table.rows.length - 1})">Edit</button>`;
+            }
+
+            // Clear input fields after adding or editing the team
             document.getElementById('teamName').value = '';
             document.getElementById('teamNumber').value = '';
             document.getElementById('teamRanking').value = '';
 
             // Hide the submit button after adding
             document.getElementById('submitButton').style.display = 'none';
+        }
+
+        function editTeam(index) {
+            const row = document.getElementById('teamList').getElementsByTagName('tbody')[0].rows[index];
+
+            // Populate the input fields with the current values
+            document.getElementById('teamName').value = row.cells[0].textContent;
+            document.getElementById('teamNumber').value = row.cells[1].textContent;
+            document.getElementById('teamRanking').value = row.cells[2].textContent;
+
+            editingIndex = index; // Set the index of the team being edited
+
+            // Change the submit button to reflect "Edit"
+            document.getElementById('submitButton').textContent = 'Save Changes';
         }
     </script>
 
