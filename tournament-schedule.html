@@ -128,6 +128,21 @@
             gap: 10px;
         }
 
+        .btn {
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 25px;
+            background-color: #1b1dcc;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0a0a99;
+        }
+
         footer {
             background-color: #1b1dcc;
             color: white;
@@ -138,10 +153,6 @@
 
         footer small {
             font-size: 12px;
-        }
-
-        .take-photo-button {
-            margin-top: 20px;
         }
     </style>
 </head>
@@ -166,16 +177,13 @@
 
     <div class="container">
         <h2>Tournament Schedule</h2>
-        <p>
-            This page will have the schedule for when we will play matches. This will be a photo uploaded by the pit scouts.
-        </p>
 
-        <button id="startButton" class="take-photo-button">Take Photo</button>
+        <button id="startButton" class="btn">Take Photo</button>
 
         <div id="camera">
             <video autoplay></video>
             <div id="controls">
-                <button id="captureButton">Capture</button>
+                <button id="captureButton" class="btn">Capture</button>
             </div>
         </div>
 
@@ -183,8 +191,8 @@
             <canvas style="display: none;"></canvas>
             <img id="photo" src="" alt="Captured Photo">
             <div id="controls">
-                <button id="retakeButton">Retake</button>
-                <button id="useButton">Use Photo</button>
+                <button id="retakeButton" class="btn">Retake</button>
+                <button id="useButton" class="btn">Use Photo</button>
             </div>
         </div>
     </div>
@@ -205,6 +213,16 @@
         const useButton = document.getElementById('useButton');
 
         let stream;
+
+        // Load saved photo from localStorage
+        window.onload = () => {
+            const savedPhoto = localStorage.getItem('photo');
+            if (savedPhoto) {
+                photo.src = savedPhoto;
+                photo.style.display = 'block';
+                startButton.style.display = 'block';
+            }
+        };
 
         startButton.addEventListener('click', async () => {
             camera.style.display = 'block';
@@ -229,6 +247,8 @@
         });
 
         useButton.addEventListener('click', () => {
+            const photoData = photo.src;
+            localStorage.setItem('photo', photoData); // Save to localStorage
             photo.style.display = 'block';
             result.style.display = 'none';
             startButton.style.display = 'block';
