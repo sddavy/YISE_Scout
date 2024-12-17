@@ -35,49 +35,11 @@
             align-items: center;
         }
 
-        .header-content {
-            display: flex;
-            align-items: center;
-            width: 100%;
-        }
-
         header h1 {
             font-family: 'Aerospace', sans-serif;
             font-size: 48px;
             text-align: center;
-            flex-grow: 1;
             margin: 0;
-        }
-
-        header img {
-            height: 160px;
-            margin-right: 20px;
-        }
-
-        nav {
-            background-color: #e0e0e0;
-            padding: 10px;
-            text-align: center;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #333;
-            padding: 10px 20px;
-            margin: 0 10px;
-            font-size: 18px;
-            transition: background-color 0.3s ease;
-        }
-
-        nav a:hover {
-            background-color: #b0b0b0;
-            color: white;
-        }
-
-        nav a.active {
-            background-color: #1b1dcc;
-            color: white;
-            border-radius: 0;
         }
 
         .container {
@@ -88,44 +50,18 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             flex-grow: 1;
-        }
-
-        .container h2 {
-            font-size: 32px;
-            color: #333;
-            text-align: left;
-            margin-bottom: 20px;
-        }
-
-        .container p {
-            font-size: 18px;
-            color: #555;
-            line-height: 1.6;
+            text-align: center;
         }
 
         #camera, #result {
             display: none;
-            text-align: center;
             margin-top: 20px;
         }
 
-        #camera video {
+        video, img {
             width: 100%;
             max-width: 600px;
             border: 2px solid #333;
-        }
-
-        #result img {
-            width: 100%;
-            max-width: 600px;
-            border: 2px solid #333;
-        }
-
-        #controls {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
         }
 
         .btn {
@@ -142,71 +78,45 @@
         .btn:hover {
             background-color: #0a0a99;
         }
-
-        footer {
-            background-color: #1b1dcc;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-            width: 100%;
-        }
-
-        footer small {
-            font-size: 12px;
-        }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="header-content">
-            <img src="yise.png" alt="YISE Scouting Logo">
-            <h1>YISE Scouting</h1>
-        </div>
+        <h1>Tournament Schedule - YISE Scouting</h1>
     </header>
-
-    <nav>
-        <a href="index.html">About</a>
-        <a href="parent-scouting.html">Parent Scouting</a>
-        <a href="competition-scouting.html">Competition Scouting</a>
-        <a href="pit-scouting.html">Pit Scouting</a>
-        <a href="team-list.html">Team List</a>
-        <a href="tournament-schedule.html" class="active">Tournament Schedule</a>
-        <a href="drive-coach.html">Drive Coach</a>
-    </nav>
 
     <div class="container">
         <h2>Tournament Schedule</h2>
-
+        
+        <!-- Take Photo Button -->
         <button id="startButton" class="btn">Take Photo</button>
 
+        <!-- Camera Section -->
         <div id="camera">
             <video autoplay></video>
-            <div id="controls">
+            <div style="margin-top: 20px;">
                 <button id="captureButton" class="btn">Capture</button>
             </div>
         </div>
 
+        <!-- Result Section -->
         <div id="result">
             <canvas style="display: none;"></canvas>
             <img id="photo" src="" alt="Captured Photo">
-            <div id="controls">
+            <div style="margin-top: 20px;">
                 <button id="retakeButton" class="btn">Retake</button>
                 <button id="useButton" class="btn">Use Photo</button>
             </div>
         </div>
     </div>
 
-    <footer>
-        <small>Brought to you by FTC YISE #11308 | All Rights Reserved | © 2024</small>
-    </footer>
-
     <script>
         const startButton = document.getElementById('startButton');
         const camera = document.getElementById('camera');
         const result = document.getElementById('result');
-        const video = camera.querySelector('video');
-        const canvas = result.querySelector('canvas');
+        const video = document.querySelector('video');
+        const canvas = document.querySelector('canvas');
         const photo = document.getElementById('photo');
         const captureButton = document.getElementById('captureButton');
         const retakeButton = document.getElementById('retakeButton');
@@ -214,46 +124,62 @@
 
         let stream;
 
-        // Load saved photo from localStorage
+        // Load saved photo on page load
         window.onload = () => {
             const savedPhoto = localStorage.getItem('photo');
             if (savedPhoto) {
                 photo.src = savedPhoto;
                 photo.style.display = 'block';
-                startButton.style.display = 'block';
             }
         };
 
+        // Start Camera
         startButton.addEventListener('click', async () => {
-            camera.style.display = 'block';
-            result.style.display = 'none';
             stream = await navigator.mediaDevices.getUserMedia({ video: true });
             video.srcObject = stream;
+
+            camera.style.display = 'block';
+            result.style.display = 'none';
+            startButton.style.display = 'none';
         });
 
+        // Capture Photo
         captureButton.addEventListener('click', () => {
             const context = canvas.getContext('2d');
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
             photo.src = canvas.toDataURL('image/png');
             camera.style.display = 'none';
             result.style.display = 'block';
+
+            stopCamera();
         });
 
-        retakeButton.addEventListener('click', () => {
+        // Retake Photo
+        retakeButton.addEventListener('click', async () => {
+            stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            video.srcObject = stream;
+
             camera.style.display = 'block';
             result.style.display = 'none';
         });
 
+        // Use Photo and Save to LocalStorage
         useButton.addEventListener('click', () => {
-            const photoData = photo.src;
-            localStorage.setItem('photo', photoData); // Save to localStorage
-            photo.style.display = 'block';
-            result.style.display = 'none';
+            localStorage.setItem('photo', photo.src);
+            alert('Photo saved!');
             startButton.style.display = 'block';
-            startButton.textContent = 'Take Photo';
+            result.style.display = 'none';
         });
+
+        // Stop the camera stream
+        function stopCamera() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+        }
     </script>
 </body>
 </html>
