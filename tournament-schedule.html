@@ -7,18 +7,15 @@
 
     <link rel="icon" href="yise.png" type="image/png">
     
-    <!-- Custom font-face rule for the Aerospace font -->
     <style>
-        /* Custom font-face rule for the Aerospace font */
         @font-face {
             font-family: 'Aerospace';
-            src: url('aerospace.woff') format('woff'), /* Adjust the path to your font file */
+            src: url('aerospace.woff') format('woff'),
                  url('aerospace.ttf') format('truetype');
             font-weight: normal;
             font-style: normal;
         }
 
-        /* Basic styles for the body */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -26,44 +23,39 @@
             background-color: #f4f4f9;
             display: flex;
             flex-direction: column;
-            height: 100vh; /* Ensure the body takes full height of the viewport */
+            height: 100vh;
         }
 
-        /* Header styles */
         header {
-            background-color: #1b1dcc; /* Blue background for header */
+            background-color: #1b1dcc;
             color: white;
             padding: 20px;
             display: flex;
-            justify-content: center; /* Center the content of the header */
+            justify-content: center;
             align-items: center;
         }
 
-        /* Container for the logo and text */
         .header-content {
             display: flex;
             align-items: center;
             width: 100%;
         }
 
-        /* Apply Aerospace font to only the main header text (h1) */
         header h1 {
-            font-family: 'Aerospace', sans-serif; /* Apply the Aerospace font */
+            font-family: 'Aerospace', sans-serif;
             font-size: 48px;
             text-align: center;
             flex-grow: 1;
             margin: 0;
         }
 
-        /* Logo styling (increased size) */
         header img {
-            height: 160px; /* Increased logo size */
+            height: 160px;
             margin-right: 20px;
         }
 
-        /* Navigation bar / tabs styles */
         nav {
-            background-color: #e0e0e0; /* Grey background for tabs */
+            background-color: #e0e0e0;
             padding: 10px;
             text-align: center;
         }
@@ -77,36 +69,32 @@
             transition: background-color 0.3s ease;
         }
 
-        /* Hover effect - Darker grey */
         nav a:hover {
-            background-color: #b0b0b0; /* Darker grey on hover */
+            background-color: #b0b0b0;
             color: white;
         }
 
-        /* Active tab style - No rounded corners, blue background */
         nav a.active {
-            background-color: #1b1dcc; /* Blue background for active tab */
+            background-color: #1b1dcc;
             color: white;
-            border-radius: 0; /* Remove rounded corners */
+            border-radius: 0;
         }
 
-        /* Main content section */
         .container {
-            max-width: 1200px;  /* Set width to 1200px */
+            max-width: 1200px;
             margin: 20px auto;
             padding: 20px;
             background-color: white;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            flex-grow: 1; /* This will push the footer to the bottom */
+            flex-grow: 1;
         }
 
-        /* Text styles for content */
         .container h2 {
             font-size: 32px;
             color: #333;
             text-align: left;
-            margin-bottom: 20px; /* Optional spacing between header and content */
+            margin-bottom: 20px;
         }
 
         .container p {
@@ -115,9 +103,33 @@
             line-height: 1.6;
         }
 
-        /* Footer styles */
+        #camera, #result {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #camera video {
+            width: 100%;
+            max-width: 600px;
+            border: 2px solid #333;
+        }
+
+        #result img {
+            width: 100%;
+            max-width: 600px;
+            border: 2px solid #333;
+        }
+
+        #controls {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
         footer {
-            background-color: #1b1dcc; /* Blue background */
+            background-color: #1b1dcc;
             color: white;
             text-align: center;
             padding: 10px 0;
@@ -127,41 +139,101 @@
         footer small {
             font-size: 12px;
         }
+
+        .take-photo-button {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Header Section -->
     <header>
         <div class="header-content">
-            <img src="yise.png" alt="YISE Scouting Logo"> <!-- Logo on the left -->
-            <h1>YISE Scouting</h1> <!-- Centered text -->
+            <img src="yise.png" alt="YISE Scouting Logo">
+            <h1>YISE Scouting</h1>
         </div>
     </header>
 
-    <!-- Navigation Tabs -->
     <nav>
         <a href="index.html">About</a>
         <a href="parent-scouting.html">Parent Scouting</a>
         <a href="competition-scouting.html">Competition Scouting</a>
         <a href="pit-scouting.html">Pit Scouting</a>
         <a href="team-list.html">Team List</a>
-        <a href="tournament-schedule.html" class="active">Tournament Schedule</a> <!-- Make this tab active -->
+        <a href="tournament-schedule.html" class="active">Tournament Schedule</a>
         <a href="drive-coach.html">Drive Coach</a>
     </nav>
 
-    <!-- Main Content Section -->
     <div class="container">
-        <h2>Tournament Schedule</h2> <!-- Heading for the page -->
+        <h2>Tournament Schedule</h2>
         <p>
-            This page will have the schedule for when we will play matches. This will be a photo uploaded by the pit scouts. 
+            This page will have the schedule for when we will play matches. This will be a photo uploaded by the pit scouts.
         </p>
+
+        <button id="startButton" class="take-photo-button">Take Photo</button>
+
+        <div id="camera">
+            <video autoplay></video>
+            <div id="controls">
+                <button id="captureButton">Capture</button>
+            </div>
+        </div>
+
+        <div id="result">
+            <canvas style="display: none;"></canvas>
+            <img id="photo" src="" alt="Captured Photo">
+            <div id="controls">
+                <button id="retakeButton">Retake</button>
+                <button id="useButton">Use Photo</button>
+            </div>
+        </div>
     </div>
 
-    <!-- Footer Section -->
     <footer>
         <small>Brought to you by FTC YISE #11308 | All Rights Reserved | © 2024</small>
     </footer>
 
+    <script>
+        const startButton = document.getElementById('startButton');
+        const camera = document.getElementById('camera');
+        const result = document.getElementById('result');
+        const video = camera.querySelector('video');
+        const canvas = result.querySelector('canvas');
+        const photo = document.getElementById('photo');
+        const captureButton = document.getElementById('captureButton');
+        const retakeButton = document.getElementById('retakeButton');
+        const useButton = document.getElementById('useButton');
+
+        let stream;
+
+        startButton.addEventListener('click', async () => {
+            camera.style.display = 'block';
+            result.style.display = 'none';
+            stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            video.srcObject = stream;
+        });
+
+        captureButton.addEventListener('click', () => {
+            const context = canvas.getContext('2d');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            photo.src = canvas.toDataURL('image/png');
+            camera.style.display = 'none';
+            result.style.display = 'block';
+        });
+
+        retakeButton.addEventListener('click', () => {
+            camera.style.display = 'block';
+            result.style.display = 'none';
+        });
+
+        useButton.addEventListener('click', () => {
+            photo.style.display = 'block';
+            result.style.display = 'none';
+            startButton.style.display = 'block';
+            startButton.textContent = 'Take Photo';
+        });
+    </script>
 </body>
 </html>
